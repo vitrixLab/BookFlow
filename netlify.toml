@@ -1,0 +1,14 @@
+[build]
+  command = "npx prisma generate && pnpm build"
+
+[build.environment]
+  DATABASE_URL = ""
+  SESSION_PASSWORD = ""
+  NVIDIA_API_KEY = ""
+
+[functions]
+  directory = "netlify/functions"
+
+# Scheduled SMS cron – runs every hour
+["cron-sms"]
+  schedule = "0 * * * *"

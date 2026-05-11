@@ -1,0 +1,128 @@
+{
+  "meta": {
+    "version": "2.2.0",
+    "date_created": "2026-05-04",
+    "description": "Chatbot UI labels, system prompts, and fully‑configurable pipeline settings for the BookFlow AI assistant."
+  },
+  "widget": {
+    "title": "BookFlow Assistant",
+    "bubbleLabel": "Open assistant",
+    "closeBubbleLabel": "Close assistant",
+    "minimizeButtonLabel": "Minimize assistant",
+    "inputPlaceholder": "Type your question...",
+    "sendButtonLabel": "Send",
+    "loadingMessage": "Thinking…",
+    "errorMessage": "Something went wrong. Please try again.",
+    "offlineMessage": "The assistant is temporarily unavailable.",
+    "loginRequiredMessage": "You're not logged in. Please log in to ask data‑related questions.",
+    "notFoundMessage": "I couldn't find relevant documentation to answer that.",
+    "planLookupMessage": "You're on the {plan} plan.",
+    "noUpcomingAppointment": "You don't have any upcoming appointments.",
+    "noUpcomingBooking": "You don't have any upcoming bookings.",
+    "noClients": "You have no clients yet.",
+    "noBookings": "You haven't booked anything yet.",
+    "refreshCacheCommand": "refresh cache",
+    "nvidiaApiBase": "https://integrate.api.nvidia.com/v1",
+    "nvidiaModel": "meta/llama-3.1-8b-instruct",
+    "fallbackAnswer": "I'm not sure about that. Could you rephrase or ask something about BookFlow?",
+    "tempUnavailable": "The assistant is temporarily unavailable.",
+    "genericError": "Sorry, I had trouble answering that."
+  },
+  "pages": {
+    "aiAssistant": {
+      "title": "AI Assistant",
+      "subtitle": "Your chat history is saved automatically and cleared on logout.",
+      "emptyText": "No messages yet. Start a conversation below.",
+      "inputPlaceholder": "Ask about your appointments, clients, or services...",
+      "sendAria": "Send message",
+      "minimizeAria": "Minimize assistant"
+    },
+    "knowledgeBase": {
+      "title": "Knowledge Base",
+      "searchPlaceholder": "Search consolidated knowledge...",
+      "sourceDocumentsLabel": "Source Documents",
+      "canonicalStatementsLabel": "Canonical Statements",
+      "idColumn": "ID",
+      "statementColumn": "Statement",
+      "scoreColumn": "Score",
+      "previous": "Previous",
+      "next": "Next",
+      "pageInfo": "Page {current} of {total}"
+    },
+    "chatLogs": {
+      "title": "Chat Interaction Logs",
+      "searchPlaceholder": "Search questions...",
+      "allSources": "All Sources",
+      "sourceLiveData": "Live Data",
+      "sourceKnowledgeBase": "Knowledge Base",
+      "sourceDocumentation": "Documentation",
+      "sourceFallback": "Fallback",
+      "idColumn": "ID",
+      "questionColumn": "Question",
+      "answerColumn": "Answer",
+      "sourceColumn": "Source",
+      "userColumn": "User",
+      "timestampColumn": "Timestamp",
+      "previous": "Previous",
+      "next": "Next",
+      "pageInfo": "Page {current} of {total}",
+      "anonymous": "Anonymous"
+    } 
+  },
+  "caching": {
+    "description": "Three caching layers used by the chatbot.",
+    "sessionCache": "Built on login, stores role‑specific summary data (TTL: 5 min).",
+    "queryAnswerCache": "Stores exact answers to live‑data questions (TTL: 90 sec).",
+    "llmAnswerCache": "Stores LLM‑generated answers (TTL: 5 min)."
+  }, 
+  "greetings": {
+    "default": "Hi! Ask me anything about BookFlow.",
+    "loggedInWithRole": "Hi, {name}! How can I help you with your {role} dashboard today?"
+  },
+  "suggestedQuestions": [
+    "How many appointments today?",
+    "What is BookFlow?",
+    "How to add a service?",
+    "What's my plan?",
+    "Who is my next client?",
+    "Show my bookings this week",
+    "Total users in the system"
+  ],
+  "systemPrompt": {
+    "content": "You are a helpful assistant for the BookFlow SaaS platform. BookFlow is a smart appointment scheduling and workflow management tool for service businesses. It provides role‑based dashboards for admins, employees, and clients. When a user asks 'how to add a service', use the 'Manage Services page' description: go to Admin > Services, use the Add Service form, enter name and description, then click Add Service. Answer precisely using the documentation. If you don't know, say so."
+  },
+  "knowledgeBasePromptTemplate": "You are a helpful assistant. Use the following relevant information from the BookFlow knowledge base to answer the user's question in a natural, concise, and human‑friendly way. Do not mention 'the documentation' or 'the knowledge base' in your answer – just answer directly. If the information is insufficient, say you don't know.\n\nRELEVANT KNOWLEDGE:\n{context}\n\nUSER QUESTION: {question}\n\nANSWER:",
+  "answerSources": {
+    "local_reply": "Answered from built‑in conversation rules.",
+    "live_data": "Answered from live database (appointments, clients…).",
+    "knowledge_base": "Answered from consolidated knowledge base (SQLite + LLM).",
+    "binary_search": "Answered from the offline documentation index + LLM.",
+    "nvidia_llm": "Answered by NVIDIA Llama (documentation).",
+    "fallback": "No suitable answer found."
+  },
+  "cacheData": {
+    "description": "Summary of role‑specific data pre‑fetched at login and stored in the session.",
+    "admin": {
+      "totalUsers": "Total users in the system",
+      "totalServices": "Total services available",
+      "totalAppointments": "Total appointments",
+      "todayAppointments": "Appointments scheduled for today"
+    },
+    "employee": {
+      "todayAppointments": "Your appointments today",
+      "nextAppointment": "Your next appointment (service, client, time)",
+      "clientList": "Clients you have served"
+    },
+    "client": {
+      "bookingCount": "Total bookings you have made",
+      "nextBooking": "Your next upcoming booking (service, employee, time)",
+      "recentBooking": "Your most recent booking (service, date)"
+    }
+  },
+  "accessibility": {
+    "bubbleAriaLabel": "Open assistant",
+    "closeAriaLabel": "Close assistant",
+    "sendAriaLabel": "Send message",
+    "inputAriaLabel": "Type your question"
+  }
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main pages -->
+  <url><loc>https://bookfly-app.netlify.app/</loc></url>
+  <url><loc>https://bookfly-app.netlify.app/login</loc></url>
+  <url><loc>https://bookfly-app.netlify.app/register</loc></url>
+  <url><loc>https://bookfly-app.netlify.app/pricing</loc></url>
+  <!-- Additional pages that can be indexed -->
+  <url><loc>https://bookfly-app.netlify.app/preload</loc></url>
+  <url><loc>https://bookfly-app.netlify.app/client/dashboard</loc></url>
+  <url><loc>https://bookfly-app.netlify.app/employee/dashboard</loc></url>
+  <url><loc>https://bookfly-app.netlify.app/admin/dashboard</loc></url>
+</urlset>

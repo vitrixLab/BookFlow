@@ -1,0 +1,420 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "date_created": "2026-04-30",
+    "original_system": "Booking & Workflow SaaS Demo (Timely/Fresha-like)"
+  },
+  "site_name": "BookFlow",
+  "site_subname": "Booking & Workflow",
+  "site_tagline": "Appointment scheduling, SMS automation & workflow management",
+  "logo_icon": "fa-calendar-check",
+  "primary_color": "#0a6ed1",
+  "secondary_color": "#10b981",
+
+  "pages": {
+    "login": {
+      "title": "Login | BookFlow",
+      "heading": "Welcome back",
+      "subheading": "Sign in to manage your business",
+      "button_text": "Login",
+      "show_register_link": true
+    },
+    "register": {
+      "title": "Register | BookFlow",
+      "heading": "Create Business Account",
+      "subheading": "Start managing appointments and workflows",
+      "button_text": "Register",
+      "show_login_link": true
+    },
+    "logout": {
+      "title": "Logging out...",
+      "message": "You have been logged out.",
+      "redirect_message": "Redirecting to home..."
+    },
+
+    "admin": {
+      "role_suffix": "Admin",
+      "sidebar": {
+        "dashboard": "Dashboard",
+        "services": "Services",
+        "users": "Team & Clients", 
+        "appointments": "Appointments",
+        "ai_assistant": "AI Assistant",
+        "logging": "User Chat Logs",
+        "knowledge_base": "Knowledge Base",
+        "traces": "API Traces"
+      },
+      "dashboard": {
+        "title": "Admin Dashboard",
+        "heading": "Dashboard",
+        "overview_title": "Overview",
+        "today_label": "Today's Appointments",
+        "today_sub": "active bookings today",
+        "pending_label": "Pending Review",
+        "pending_sub": "awaiting confirmation",
+        "new_users_label": "new signups",
+        "new_users_sub": "Newly registered clients",
+        "view_all_users": "View all",
+        "chart_title": "Appointments — last 7 days",
+        "pending_appointments_title": "Pending Appointments",
+        "all_pending_link": "All →",
+        "overdue_title": "Overdue",
+        "system_health_title": "System Health",
+        "health_ok": "All systems operational",
+        "bloom_email_label": "Bloom Filter – Email",
+        "bloom_email_sub": "DB queries avoided",
+        "bloom_appt_label": "Bloom Filter – Appointments",
+        "bloom_appt_sub": "DB queries avoided",
+        "total_checks_label": "total checks",
+        "quick_actions_title": "Quick Actions",
+        "observatory_title": "Observatory",
+        "observatory_expand": "Expand",
+        "observatory_collapse": "Collapse",
+        "business_kpis_label": "Business KPIs",
+        "live_badge": "live",
+        "total_users_label": "Total Users",
+        "appointments_label": "Appointments",
+        "pending_review_label": "Pending review",
+        "chatbot_label": "Chatbot",
+        "ai_badge": "ai",
+        "llama_label": "LLaMA",
+        "cache_db_label": "Cache + DB",
+        "http_traffic_label": "HTTP Traffic",
+        "req_badge": "req"
+      },
+      "manage_services": {
+        "title": "Manage Services | Admin",
+        "heading": "Manage Services",
+        "brand_suffix": "Services",
+        "add_service_heading": "Add New Service",
+        "all_services_heading": "All Services",
+        "messages": {
+          "added": "Service added successfully",
+          "updated": "Service updated successfully",
+          "deleted": "Service deleted successfully"
+        },
+        "errors": {
+          "name_required": "Service name is required",
+          "add_failed": "Failed to add service",
+          "update_failed": "Failed to update service",
+          "delete_failed": "Failed to delete service"
+        },
+        "form": {
+          "service_name_label": "Service Name",
+          "service_name_placeholder": "e.g., 60-min Massage",
+          "description_label": "Description",
+          "description_placeholder": "Service details (duration, prep, etc.)",
+          "add_button": "Add Service"
+        },
+        "table": {
+          "id": "ID",
+          "name": "Name",
+          "description": "Description",
+          "created": "Created",
+          "actions": "Actions",
+          "edit_button": "Edit",
+          "delete_button": "Delete"
+        },
+        "delete_confirm": "Delete this service? All associated appointments will be affected.",
+        "modal": {
+          "title": "Edit Service",
+          "update_button": "Update",
+          "cancel_button": "Cancel"
+        }
+      },
+      "manage_users": {
+        "title": "Manage Users | Admin",
+        "heading": "Team & Clients",
+        "brand_suffix": "User Management",
+        "add_user_heading": "Add New User",
+        "all_users_heading": "All Users (excluding you)",
+        "edit_user_heading": "Edit User",
+        "messages": {
+          "added": "User added successfully.",
+          "updated": "User updated successfully.",
+          "deleted": "User deleted successfully."
+        },
+        "errors": {
+          "all_fields_required": "All fields required.",
+          "invalid_email": "Invalid email format.",
+          "password_too_short": "Min 6 characters.",
+          "invalid_role": "Invalid role.",
+          "email_exists": "Email already exists.",
+          "add_failed": "Failed to add user.",
+          "update_fields_required": "Name, email, role required.",
+          "email_taken": "Email already used.",
+          "update_failed": "Failed to update user.",
+          "cannot_delete_self": "Cannot delete your own account.",
+          "cannot_delete_admin": "Cannot delete another admin.",
+          "delete_failed": "Failed to delete user."
+        },
+        "form": {
+          "name_label": "Full Name",
+          "name_placeholder": "e.g., Jane Smith",
+          "email_label": "Email",
+          "email_placeholder": "client@example.com",
+          "password_label": "Password",
+          "password_placeholder": "Min 6 characters",
+          "role_label": "Role",
+          "select_role": "Select Role",
+          "role_admin": "Admin",
+          "role_employee": "Employee",
+          "role_client": "Client",
+          "phone_label": "Phone (for SMS)",
+          "phone_placeholder": "+63 XXX XXX XXXX",
+          "add_button": "Add User",
+          "update_button": "Update",
+          "cancel_button": "Cancel"
+        },
+        "table": {
+          "id": "ID",
+          "name": "Name",
+          "email": "Email",
+          "role": "Role",
+          "phone": "Phone",
+          "joined": "Joined",
+          "actions": "Actions",
+          "edit_button": "Edit",
+          "delete_button": "Delete"
+        },
+        "delete_confirm": "Delete user {name}? This action cannot be undone.",
+        "modal": {
+          "title": "Edit User",
+          "password_label": "New Password",
+          "password_placeholder": "Min 6 characters",
+          "update_button": "Update",
+          "cancel_button": "Cancel"
+        }
+      },
+      "manage_appointments": {
+        "title": "Appointments | Admin",
+        "heading": "All Appointments",
+        "add_heading": "Create New Appointment",
+        "edit_heading": "Edit Appointment",
+        "view_heading": "Appointment Details",
+        "success_create": "Appointment created successfully.",
+        "success_update": "Appointment updated successfully.",
+        "success_delete": "Appointment cancelled / deleted.",
+        "error_create": "Failed to create appointment.",
+        "error_update": "Failed to update appointment.",
+        "error_delete": "Failed to delete appointment.",
+        "form": {
+          "client_label": "Client",
+          "service_label": "Service",
+          "employee_label": "Employee",
+          "datetime_label": "Date & Time",
+          "status_label": "Status",
+          "notes_label": "Notes",
+          "submit_create": "Create Appointment",
+          "submit_update": "Update Appointment",
+          "cancel_button": "Cancel"
+        },
+        "table": {
+          "id": "ID",
+          "client": "Client",
+          "service": "Service",
+          "employee": "Employee",
+          "datetime": "Date & Time",
+          "status": "Status",
+          "actions": "Actions",
+          "edit_button": "Edit",
+          "delete_button": "Delete"
+        }
+      }
+    },
+
+    "employee": {
+      "sidebar": {
+        "dashboard": "Dashboard",
+        "appointments": "Appointments",
+        "ai_assistant": "AI Assistant",
+        "create_appointment": "Create Appointment"
+      },
+      "dashboard": {
+        "title": "Employee Dashboard",
+        "brand_suffix": "Staff Panel",
+        "stats_labels": {
+          "appointments": "Today's Appointments",
+          "pending_sms": "Pending SMS Alerts"
+        },
+        "recent_appointments_heading": "Upcoming Appointments",
+        "table": {
+          "title": "Service",
+          "client": "Client",
+          "date": "Date & Time",
+          "action": "Action",
+          "view_button": "View"
+        },
+        "view_appointment": {
+          "title": "View Appointment | Staff",
+          "service_label": "Service:",
+          "client_label": "Client:",
+          "datetime_label": "Date/Time:",
+          "status_label": "Status:",
+          "sms_status_label": "SMS Reminder Status:",
+          "sent": "Sent",
+          "not_sent": "Not sent",
+          "notes_label": "Notes:",
+          "confirm_button": "Confirm",
+          "complete_button": "Mark Complete",
+          "cancel_button": "Cancel",
+          "close_button": "Close"
+        }
+      },
+      "create_appointment": {
+        "title": "Create Appointment | Staff",
+        "heading": "Create Appointment",
+        "brand_suffix": "New Appointment",
+        "appointment_title_suffix": "Booking",
+        "config_heading": "Appointment Details",
+        "add_sms_alert_heading": "SMS Automation (optional)",
+        "save_button": "Save Appointment",
+        "success_message": "Appointment created – SMS reminder scheduled!",
+        "error_message": "Error creating appointment",
+        "button_create": "Create",
+        "errors": {
+          "empty_fields": "Please complete all required fields.",
+          "missing_employee_id": "Missing employee_id column.",
+          "general_error": "Error: "
+        },
+        "form": {
+          "service_label": "Service",
+          "select_service_placeholder": "-- Choose Service --",
+          "client_label": "Client",
+          "select_client_placeholder": "-- Select Client --",
+          "datetime_label": "Date & Time",
+          "notes_label": "Notes",
+          "sms_reminder_label": "Send SMS reminder",
+          "sms_reminder_help": "Reminder sent 1 hour before appointment"
+        },
+        "js": {
+          "phone_label": "Client Phone (for SMS)",
+          "phone_placeholder": "+63 XXX XXX XXXX"
+        }
+      },
+      "manage_appointments": {
+        "title": "My Appointments | Staff",
+        "heading": "My Appointments",
+        "brand_suffix": "All Appointments",
+        "all_appointments_heading": "All Bookings",
+        "delete_success": "Appointment cancelled successfully.",
+        "view_button": "View",
+        "delete_button": "Cancel",
+        "delete_confirm": "Cancel this appointment? SMS cancellation will be sent.",
+        "table": {
+          "client": "Client",
+          "service": "Service",
+          "datetime": "Date & Time",
+          "status": "Status",
+          "action": "Action"
+        },
+        "view_appointment": {
+          "title": "View Appointment | Staff",
+          "service_label": "Service:",
+          "client_label": "Client:",
+          "datetime_label": "Date/Time:",
+          "status_label": "Status:",
+          "sms_status_label": "SMS Reminder Status:",
+          "sent": "Sent",
+          "not_sent": "Not sent",
+          "notes_label": "Notes:",
+          "confirm_button": "Confirm",
+          "complete_button": "Mark Complete",
+          "cancel_button": "Cancel",
+          "close_button": "Close"
+        }
+      },
+      "view_appointment": {
+        "title": "View Appointment | Staff",
+        "service_label": "Service:",
+        "client_label": "Client:",
+        "datetime_label": "Date/Time:",
+        "sms_status_label": "SMS Reminder Status:",
+        "not_sent": "Not sent",
+        "sent": "Sent",
+        "resend_sms_button": "Resend SMS Reminder"
+      },
+      "my_appointments": {
+        "title": "My Appointments | Staff"
+      }
+    },
+
+    "client": {
+      "sidebar": {
+        "dashboard": "My Dashboard",
+        "book_appointment": "Book Appointment",
+        "ai_assistant": "AI Assistant",
+        "my_bookings": "My Bookings"
+      },
+      "dashboard": {
+        "title": "Client Dashboard",
+        "brand_suffix": "Client Area",
+        "welcome_prefix": "Welcome,",
+        "logout_button": "Logout",
+        "stats_labels": {
+          "appointments_made": "Bookings Made",
+          "last_visit": "Last Visit"
+        },
+        "available_services_heading": "Book a Service",
+        "available_table": {
+          "service": "Service",
+          "description": "Description",
+          "duration": "Duration",
+          "action": "Action",
+          "book_button": "Book"
+        },
+        "no_available_message": "No services available at the moment.",
+        "recent_bookings_heading": "Recent Bookings",
+        "recent_table": {
+          "service": "Service",
+          "datetime": "Date/Time",
+          "status": "Status",
+          "action": "Action",
+          "details_button": "Details"
+        },
+        "no_results_message": "Book your first appointment to see it here."
+      },
+      "my_bookings": {
+        "title": "My Bookings",
+        "heading": "Your Appointments",
+        "empty_message": "You have no upcoming or past bookings.",
+        "table": {
+          "service": "Service",
+          "datetime": "Date/Time",
+          "status": "Status",
+          "action": "Action",
+          "details_button": "Details"
+        }
+      },
+      "book_appointment": {
+        "title": "Book Appointment | Client",
+        "logo_text": "📅 New Booking",
+        "exit_button": "Cancel",
+        "service_label": "Select Service",
+        "datetime_label": "Choose Date & Time",
+        "phone_label": "Your mobile number (for SMS reminders)",
+        "phone_placeholder": "+63 XXX XXX XXXX",
+        "submit_button": "Confirm Booking",
+        "sms_confirmation": "You will receive an SMS confirmation.",
+        "success_message": "Booking confirmed! SMS sent to your phone."
+      },
+      "appointment_details": {
+        "logo_text": "Booking Details",
+        "service_label": "Service:",
+        "datetime_label": "Date/Time:",
+        "sms_sent_label": "Reminder SMS:",
+        "cancel_button": "Cancel Booking"
+      }
+    },
+
+    "settings": {
+      "title": "Settings | BookFlow",
+      "heading": "Settings",
+      "profile_name_label": "Name",
+      "profile_email_label": "Email",
+      "profile_role_label": "Role",
+      "profile_plan_label": "Plan",
+      "profile_avatar_alt": "Your avatar"
+    }
+  }
+}

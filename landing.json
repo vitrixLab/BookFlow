@@ -1,0 +1,113 @@
+{
+  "meta": {
+    "title": "BookFlow – Smart Appointment Scheduling for Your Business",
+    "description": "BookFlow helps service businesses manage appointments, staff, and clients seamlessly. Start your free trial today."
+  },
+  "nav": {
+    "brand": "BookFlow",
+    "login": "Log In",
+    "register": "Get Started Free",
+    "featuresLabel": "Features",
+    "howItWorksLabel": "How it works",
+    "faqLabel": "FAQ",
+    "mobileMenuLabel": "Open navigation menu"
+  },
+  "accessibility": {
+    "skipLink": "Skip to main content"
+  },
+  "hero": {
+    "title_line1": "Effortless Appointment Booking",
+    "title_line2": "for Modern Service Teams",
+    "subtitle": "BookFlow streamlines scheduling, client management, and reminders so you can focus on what you do best – serving your clients.",
+    "badge": "Loved by 12,000+ teams · No credit card needed",
+    "cta_primary": "Start Free Trial",
+    "cta_secondary": "Learn More ↓",
+    "footerMicrocopy": "Free forever for small teams · Upgrade anytime",
+    "floatBadge": "Setup in <30 min"
+  },
+  "logos": {
+    "eyebrow": "Trusted by",
+    "heading": "Companies that rely on BookFlow"
+  },
+  "clients": [
+    { "name": "Stripe", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/stripe.svg" },
+    { "name": "Shopify", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/shopify.svg" },
+    { "name": "Airbnb", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/airbnb.svg" },
+    { "name": "Slack", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/slack.svg" },
+    { "name": "Dropbox", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/dropbox.svg" },
+    { "name": "PayPal", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/paypal.svg" },
+    { "name": "Asana", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/asana.svg" },
+    { "name": "HubSpot", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/hubspot.svg" },
+    { "name": "Atlassian", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/atlassian.svg" },
+    { "name": "Twilio", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/twilio.svg" },
+    { "name": "Monday.com", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/mondaydotcom.svg" },
+    { "name": "Gusto", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/gusto.svg" },
+    { "name": "Zendesk", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/zendesk.svg" },
+    { "name": "Intercom", "logo": "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/intercom.svg" }
+  ],
+  "trustMetrics": [
+    { "value": "12,000+", "label": "Teams onboarded" },
+    { "value": "4.9 ★", "label": "Average rating" },
+    { "value": "99.9%", "label": "Uptime SLA" },
+    { "value": "SOC 2", "label": "Type II certified" }
+  ],
+  "features": {
+    "eyebrow": "Why teams choose us",
+    "heading": "Why teams love BookFlow",
+    "items": [
+      { "icon": "fa-clock", "title": "Online Booking 24/7", "description": "Clients can book appointments anytime, reducing phone tag and double‑bookings." },
+      { "icon": "fa-user-friends", "title": "Staff Management", "description": "Assign appointments, track availability, and manage employee schedules in one place." },
+      { "icon": "fa-sms", "title": "Automated SMS Reminders", "description": "Reduce no‑shows with smart reminders sent automatically before appointments." },
+      { "icon": "fa-chart-bar", "title": "Insightful Dashboard", "description": "Real‑time stats on bookings, revenue, and client trends at a glance." },
+      { "icon": "fa-lock", "title": "Role‑Based Access", "description": "Admins, employees, and clients each have secure, tailored workspaces." },
+      { "icon": "fa-cloud", "title": "Cloud & Secure", "description": "Your data is encrypted and backed up – access it anywhere, anytime." }
+    ]
+  },
+  "steps": {
+    "eyebrow": "Simple by design",
+    "heading": "How it works",
+    "items": [
+      { "title": "Create Your Account", "description": "Sign up in seconds – no credit card required." },
+      { "title": "Set Up Services & Staff", "description": "Add your service menu and invite your team." },
+      { "title": "Share Your Booking Link", "description": "Clients can self‑book directly from your website or a shared link." },
+      { "title": "Manage & Grow", "description": "Track appointments, send reminders, and watch your business thrive." }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Customer stories",
+    "heading": "Trusted by Service Pros",
+    "items": [
+      { "quote": "BookFlow cut our no‑show rate by 40%. The SMS reminders are a game‑changer.", "name": "Sarah Williams", "role": "Salon Owner" },
+      { "quote": "Finally a booking system that’s easy for my clients and my team. Setup took less than 10 minutes.", "name": "Michael Kiu", "role": "Massage Therapist" },
+      { "quote": "The admin dashboard gives me a clear picture of my daily appointments. Highly recommended.", "name": "Lisa Johnson", "role": "Clinic Manager" }
+    ]
+  },
+  "faq": {
+    "eyebrow": "Common questions",
+    "heading": "Everything you need to know",
+    "items": [
+    { "q": "What are the plan limits?", "a": "Solo includes 1 employee, 25 clients, and no admin accounts. Studio allows 5 employees, 250 clients, and 1 admin account. Business is unlimited – no caps on employees, clients, or admins." },
+      { "q": "Is there a free plan?", "a": "Yes — our free tier covers up to 5 users and unlimited projects. No credit card required." },
+      { "q": "How long does setup take?", "a": "Most teams are live in under 30 minutes. Our onboarding wizard walks you through every step." },
+      { "q": "Can I import data from other tools?", "a": "Absolutely. We support CSV import and direct integrations with Jira, Asana, and Google Sheets." },
+      { "q": "What if I need help?", "a": "Paid plans include live chat support. All users get access to our documentation and community forum." }
+    ]
+  },
+  "cta": {
+    "eyebrow": "Get started today",
+    "heading": "Ready to simplify your scheduling?",
+    "subtitle": "Join hundreds of service professionals who already trust BookFlow.",
+    "button": "Start Your Free Trial",
+    "microcopy": "No credit card required · Free for small teams"
+  },
+  "trustBar": {
+    "srHeading": "Key product metrics"
+  },
+  "footer": {
+    "brand": "BookFlow",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "contact": "Contact",
+    "copyright": "© {year} {brand}. All rights reserved."
+  }
+}

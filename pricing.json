@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "title": "BookFlow – Choose Your Plan",
+    "description": "Find the right plan for your service business. Start free, upgrade anytime."
+  },
+  "nav": {
+    "brand": "BookFlow"
+  },
+  "headline": {
+    "eyebrow": "Simple pricing",
+    "title": "Plans that grow with your business",
+    "subtitle": "Start free, upgrade when you’re ready. No hidden fees."
+  },
+  "billing": {
+    "monthly": "Monthly",
+    "annual": "Annual",
+    "save": "Save 20%"
+  },
+  "plans": [
+    {
+      "id": "solo",
+      "name": "Solo",
+      "tag": "",
+      "monthlyPrice": 0,
+      "annualPrice": 0,
+      "cta": "Start Free",
+      "ctaUrl": "/client/dashboard",
+      "features": [
+        "Up to 25 bookings/month",
+        "1 staff member",
+        "Email reminders",
+        "Basic dashboard",
+        "Self‑booking page",
+        "Up to 1 staff, 25 clients, no admin"
+      ]
+    },
+    {
+      "id": "studio",
+      "name": "Studio",
+      "tag": "Most Popular",
+      "monthlyPrice": 29,
+      "annualPrice": 24,
+      "cta": "Try Studio Free",
+      "ctaUrl": "/client/dashboard",
+      "features": [
+        "Everything in Solo",
+        "Up to 250 bookings/month",
+        "5 staff members",
+        "SMS reminders",
+        "Client management",
+        "Calendar sync",
+        "Custom booking page",
+        "Up to 5 staff, 250 clients, 1 admin"
+      ]
+    },
+    {
+      "id": "business",
+      "name": "Business",
+      "tag": "",
+      "monthlyPrice": 59,
+      "annualPrice": 49,
+      "cta": "Get Started",
+      "ctaUrl": "/client/dashboard",
+      "features": [
+        "Everything in Studio",
+        "Unlimited bookings",
+        "Unlimited staff",
+        "Workflow automation",
+        "Advanced reporting",
+        "Priority support",
+        "API access",
+        "Unlimited staff, clients, and admins"
+      ]
+    },
+    {
+      "id": "enterprise",
+      "name": "Enterprise",
+      "tag": "",
+      "monthlyPrice": null,
+      "annualPrice": null,
+      "cta": "Talk to Sales",
+      "ctaUrl": "/contact",
+      "features": [
+        "Everything in Business",
+        "Dedicated account manager",
+        "Custom integrations",
+        "SLA & uptime guarantee",
+        "On‑site training",
+        "SSO & advanced security"
+      ]
+    }
+  ],
+  "faq": {
+    "heading": "Frequently asked questions",
+    "items": [
+      { "q": "Can I switch plans later?", "a": "Absolutely. You can upgrade or downgrade at any time. Prorated charges apply when upgrading." },
+      { "q": "Is there a long‑term contract?", "a": "No. All plans are billed monthly or annually – you can cancel anytime." },
+      { "q": "What payment methods do you accept?", "a": "We accept all major credit cards, PayPal, and bank transfers for annual plans." },
+      { "q": "Do you offer a free trial?", "a": "Yes! The Studio and Business plans come with a 14‑day free trial. No credit card required." },
+      { "q": "What are the plan limits?", "a": "Solo includes 1 employee, 25 clients, and no admin accounts.\nStudio allows 5 employees, 250 clients, and 1 admin account.\nBusiness is unlimited – no caps on employees, clients, or admins." }
+    ]
+  },
+  "footer": {
+    "brand": "BookFlow",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "contact": "Contact"
+  }
+}

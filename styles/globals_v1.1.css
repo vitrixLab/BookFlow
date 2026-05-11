@@ -1,0 +1,455 @@
+/* ============================================
+   BOOKFLOW – DESIGN‑ENGINEERED GLOBAL STYLES
+   Philosophy: Emil Kowalski's invisible details
+   ============================================ */
+
+/* -------------------- DESIGN SYSTEM -------------------- */
+:root {
+    /* Core palette */
+    --sap-primary: #0a6ed1;
+    --sap-primary-hover: #0854a0;
+    --sap-success: #2e7d32;
+    --sap-warning: #f5a623;
+    --sap-danger: #d32f2f;
+
+    --sap-header-bg: #1c2e4a;
+    --sap-sidebar-bg: #1e2a3a;
+    --sap-sidebar-hover: #2d3e54;
+
+    --sap-main-bg: #f5f6f7;
+    --sap-card-bg: #ffffff;
+
+    --sap-text-dark: #1e2a3a;
+    --sap-text-muted: #6b7280;
+
+    --sap-border: #d4d8dd;
+    --sap-focus-ring: rgba(10,110,209,0.25);
+
+    /* Spacing system (Fiori-like rhythm) */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+
+    /* Layout */
+    --sidebar-width: 260px;
+    --header-height: 64px;
+
+    /* Radius */
+    --radius-sm: 6px;
+    --radius-md: 8px;
+
+    /* Custom easing curves (Emil's recommended) */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+    /* Motion */
+    --transition-fast: 120ms ease-out;
+}
+
+/* -------------------- RESET -------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: var(--sap-main-bg);
+    color: var(--sap-text-dark);
+}
+
+/* -------------------- LAYOUT -------------------- */
+.dashboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* HEADER */
+.dashboard-header {
+    height: var(--header-height);
+    background: var(--sap-header-bg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-lg);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Logo */
+.logo {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* User menu */
+.user-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    color: #F5F5F5;
+}
+
+.user-menu button {
+    background: none;
+    border: none;
+    color: #e2e8f0;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: color 0.16s ease; /* avoid 'all' */
+}
+
+.user-menu button:hover {
+    color: #ffffff;
+}
+
+/* BODY STRUCTURE */
+.dashboard-body {
+    display: flex;
+    flex: 1;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--sap-sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-md) 0;
+}
+
+/* Navigation */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-lg);
+    color: #cbd5e1;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: background 0.16s ease; /* specific property */
+}
+
+.sidebar-nav a:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.sidebar-nav a.active {
+    background: var(--sap-sidebar-hover);
+    border-left: 3px solid var(--sap-primary);
+    color: #fff;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    flex: 1;
+    padding: var(--space-lg);
+}
+
+/* -------------------- CARDS -------------------- */
+.card {
+    background: var(--sap-card-bg);
+    border: 1px solid var(--sap-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-bottom: var(--space-lg);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease; /* specific */
+}
+
+/* Card header */
+.card-header {
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+}
+
+/* -------------------- STAT CARDS -------------------- */
+.stat-card {
+    padding: var(--space-md);
+}
+
+.stat-number {
+    font-size: 1.8rem;
+    color: var(--sap-primary);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--sap-text-muted);
+}
+
+/* -------------------- TABLE -------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--sap-border);
+}
+
+th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background: #f7f8fa;
+}
+
+/* -------------------- BUTTONS -------------------- */
+.btn {
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    cursor: pointer;
+    border: none;
+    /* Only animate transform & box-shadow – no 'all' */
+    transition: transform 0.16s var(--ease-out), box-shadow 0.16s ease,
+                background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.btn:active {
+    transform: scale(0.97); /* instant press feedback */
+}
+
+/* Primary */
+.btn-primary {
+    background: var(--sap-primary);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--sap-primary-hover);
+}
+
+/* Secondary */
+.btn-secondary {
+    background: transparent;
+    border: 1px solid var(--sap-border);
+}
+
+.btn-secondary:hover {
+    background: #001e4a;
+    color: white;
+}
+
+/* Danger */
+.btn-danger {
+    background: var(--sap-danger);
+    color: #fff;
+}
+
+/* -------------------- FORMS -------------------- */
+input, select, textarea {
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--sap-border);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    transition: border-color 0.16s ease, box-shadow 0.16s ease; /* specific */
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--sap-primary);
+    box-shadow: 0 0 0 3px var(--sap-focus-ring);
+}
+
+label {
+    font-size: 0.75rem;
+    color: var(--sap-text-muted);
+    margin-bottom: 4px;
+    display: block;
+}
+
+/* -------------------- ALERTS -------------------- */
+.alert {
+    padding: var(--space-md);
+    border-left: 4px solid;
+    border-radius: var(--radius-sm);
+    transition: opacity 0.2s ease; /* specific */
+}
+
+.alert-success {
+    background: #e6f4ea;
+    border-color: var(--sap-success);
+}
+
+.alert-error {
+    background: #fce8e6;
+    border-color: var(--sap-danger);
+}
+
+/* -------------------- SAP FIORI LOGIN CARD (ENHANCED) -------------------- */
+.sap-login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1c2e4a 0%, #0f1a2e 100%);
+    padding: 1.5rem;
+}
+
+.sap-login-card {
+    max-width: 400px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 0.8rem; /* slightly larger for modern feel */
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+    padding: 2rem;
+    transition: transform 0.25s var(--ease-out), box-shadow 0.25s ease; /* specific */
+}
+
+/* Micro lift on hover if supported */
+@media (hover: hover) and (pointer: fine) {
+    .sap-login-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 16px 56px rgba(0, 0, 0, 0.22);
+    }
+}
+
+.sap-login-card .logo {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+.sap-login-card .logo i {
+<<<<<<< Updated upstream
+    font-size: 2.5rem !important;  /* override global icon clamp */
+    color: #0a6ed1;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+=======
+    font-size: 2.5rem;
+    color: #0a6ed1; /* keep solid, no gradient clip issue */
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    color: #0a6ed1;
+>>>>>>> Stashed changes
+}
+.sap-login-card h2 {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700; /* slightly bolder */
+    color: #1e2a3a;
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.02em; /* refined */
+}
+.sap-login-card .sub {
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.sap-login-card .form-group {
+    margin-bottom: 1.25rem;
+}
+.sap-login-card label {
+    color: #4b5563;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+.sap-login-card input {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem; /* slightly larger */
+    background: white;
+    color: #111827;
+    transition: border-color 0.16s ease, box-shadow 0.16s ease; /* specific */
+}
+.sap-login-card input:focus {
+    border-color: #0a6ed1;
+    box-shadow: 0 0 0 3px rgba(10, 110, 209, 0.2);
+    outline: none;
+}
+.sap-login-card .btn {
+    background: #0a6ed1;
+    color: white;
+    padding: 0.6rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.16s var(--ease-out), box-shadow 0.16s ease,
+                background-color 0.18s ease;
+}
+.sap-login-card .btn:active {
+    transform: scale(0.97); /* press feedback */
+}
+.sap-login-card .btn:hover {
+    background: #0854a0;
+}
+.sap-login-card .links {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+.sap-login-card .links a {
+    color: #0a6ed1;
+    text-decoration: none;
+    transition: color 0.16s ease;
+}
+.sap-login-card .alert {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+/* -------------------- RESPONSIVE -------------------- */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        padding: var(--space-md);
+    }
+
+    .dashboard-header {
+        padding: 0 var(--space-md);
+    }
+}
+/* Additional layout definitions for stats grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+/* Ensure card-header has proper margins */
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+.card-header i {
+    font-size: 1.25rem !important; /* override global clamp */
+    color: var(--sap-primary);
+}
+.card-header h3 {
+    font-weight: 600;
+    margin: 0;
+<<<<<<< Updated upstream
+}
+
+=======
+}
+>>>>>>> Stashed changes

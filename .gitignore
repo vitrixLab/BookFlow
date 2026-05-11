@@ -1,0 +1,7 @@
+.env
+.env.local
+*.log
+out.db
+skills-lock.json
+node_modules/
+.next/
