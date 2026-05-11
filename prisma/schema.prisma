@@ -1,0 +1,108 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EMPLOYEE
+  CLIENT
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id              Int             @id @default(autoincrement())
+  name            String
+  email           String          @unique
+  password        String
+  role            Role            @default(CLIENT)
+  phone           String?
+  photo           String?
+  plan            String?         @default("solo")
+  approvedBy      Int?
+  approvedByAdmin User?           @relation("ApprovedBy", fields: [approvedBy], references: [id])
+  approvedUsers   User[]          @relation("ApprovedBy")
+  maxEmployees    Int?            @default(1)
+  maxClients      Int?            @default(25)
+  maxAdmins       Int?            @default(0)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  appointments    BookedAppointment[] @relation("client")
+  assignedTo      BookedAppointment[] @relation("employee")
+
+  @@index([role])               // fast user-type counts
+  @@index([createdAt])          // sorted user lists
+}
+
+model Service {
+  id            Int                 @id @default(autoincrement())
+  name          String
+  description   String?
+  durationMin   Int
+  price         Float?
+  createdBy     Int?
+  createdAt     DateTime            @default(now())
+
+  appointments  BookedAppointment[]
+
+  @@index([createdAt])          // sorted service lists
+}
+
+model BookedAppointment {
+  id             Int                @id @default(autoincrement())
+  datetime       DateTime
+  notes          String?
+  status         AppointmentStatus  @default(PENDING)
+  smsSent        Boolean            @default(false)
+  smsRetryCount  Int                @default(1)
+  createdAt      DateTime           @default(now())
+
+  serviceId      Int
+  service        Service            @relation(fields: [serviceId], references: [id])
+  clientId       Int
+  client         User               @relation("client", fields: [clientId], references: [id])
+  employeeId     Int?
+  employee       User?              @relation("employee", fields: [employeeId], references: [id])
+
+  @@index([datetime])          // filter by date – the most common query
+  @@index([status])            // filter by status
+  @@index([clientId])          // join/where by client
+  @@index([employeeId])        // join/where by employee
+  @@index([createdAt])         // sorted appointment lists
+}
+
+model SmsLog {
+  id              Int       @id @default(autoincrement())
+  appointmentId   Int
+  recipientPhone  String
+  status          String
+  retryCount      Int       @default(0)
+  lastAttempt     DateTime?
+  createdAt       DateTime  @default(now())
+}
+
+model LoginTrace {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  email     String
+  ip        String
+  device    String
+  success   Boolean
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([ip])
+  @@index([createdAt])
+}
