@@ -10,6 +10,7 @@ import Head from 'next/head'
 import { getBloomStats } from '../../lib/bloom'
 import { useRouter } from 'next/router'
 import ObservatoryPanel from '../../components/admin/ObservatoryPanel'
+import Footer from '../../components/Footer'
 
 /* ── TYPES ──────────────────────────────────────────── */
 interface AppointmentSummary {
@@ -595,6 +596,8 @@ export default function AdminDashboard({
           feedback={feedback}
         />
       )}
+ 
+    <Footer />
 
       <style jsx>{`
         /* PAGE */

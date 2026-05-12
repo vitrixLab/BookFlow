@@ -19,6 +19,7 @@ declare module 'iron-session' {
       role: string
       phone?: string | null
       photo?: string | null
+      isSuperAdmin?: boolean        // ← new field
       seenPricing?: boolean         // ← new flag
       plan?: string                 // ← chosen plan (optional)
     }

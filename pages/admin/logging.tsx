@@ -6,6 +6,7 @@ import { getChatInteractions, type ChatInteraction } from '../../lib/chat_db'
 import Head from 'next/head'
 import chatLabels from '../../chat.json'
 import { format } from 'date-fns'
+import Footer from '../../components/Footer'
 
 const LABELS = chatLabels as any
 const PAGE = LABELS.pages?.chatLogs || {}
@@ -284,6 +285,8 @@ export default function ChatLogs({
             </div>
           </div>
         )}
+
+        <Footer />
 
         <style jsx>{`
           /* Existing styles unchanged */

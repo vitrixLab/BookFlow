@@ -1,0 +1,53 @@
+{
+  "dashboardLayout": {
+    "siteName": "BookFlow",
+    "subName": "Booking & Workflow",
+    "searchPlaceholder": "Search anything…",
+    "createButtonLabel": "Create",
+    "supportToastMessage": "Support page coming soon!",
+    "chat": {
+      "title": "BookFlow Assistant",
+      "inputPlaceholder": "Type your question...",
+      "greetingMessage": "Hi! Ask me anything about BookFlow.",
+      "bubbleAriaOpen": "Open assistant",
+      "bubbleAriaClose": "Close assistant"
+    },
+    "avatarMenu": {
+      "dashboard": "Dashboard",
+      "settings": "Settings",
+      "logout": "Log out"
+    },
+    "mobile": {
+      "signOut": "Sign out"
+    },
+    "notifications": [
+      { "id": "1", "message": "New client registered.", "type": "info", "read": false },
+      { "id": "2", "message": "Appointment confirmed.", "type": "success", "read": false },
+      { "id": "3", "message": "Service update failed.", "type": "error", "read": false }
+    ],
+    "sidebar": {
+      "admin": {
+        "dashboard": "Dashboard",
+        "services": "Services",
+        "users": "Team & Clients",
+        "appointments": "Appointments",
+        "ai_assistant": "AI Assistant",
+        "logging": "User Chat Logs",
+        "knowledge_base": "Knowledge Base",
+        "traces": "API Traces"
+      },
+      "employee": {
+        "dashboard": "Dashboard",
+        "appointments": "Appointments",
+        "create_appointment": "Create Appointment",
+        "ai_assistant": "AI Assistant"
+      },
+      "client": {
+        "dashboard": "My Dashboard",
+        "book_appointment": "Book Appointment",
+        "my_bookings": "My Bookings",
+        "ai_assistant": "AI Assistant"
+      }
+    }
+  }
+}

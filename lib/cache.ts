@@ -21,8 +21,8 @@ export function invalidateCache(key: string) {
 
 export function clearCache(key?: string) {
   if (key) {
-    cache.delete(key)
+    store.delete(key)
   } else {
-    cache.clear()
+    store.clear()
   }
 }

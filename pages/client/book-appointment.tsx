@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import DashboardLayout from '../../components/DashboardLayout'
 import siteConfig from '../../site.json'
 import { prisma } from '../../lib/db'
+import Footer from '../../components/Footer'
 
 /* ─── Toast (same as admin) ─────────────────────── */
 function Toast({ message, type = 'success', onClose }: {
@@ -131,6 +132,8 @@ export default function ClientBookAppointment({ user, services, preselectedServi
 
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
 
+        <Footer />
+        
       <style jsx>{`
         .page { max-width: 600px; margin: 0 auto; width: 100%; }
         .page-header { margin-bottom: 1.75rem; }

@@ -6,6 +6,7 @@ import { getSourceDocuments, getCanonicalStatements } from '../../lib/chat_db'
 import Head from 'next/head'
 import type { SourceDocument, CanonicalStatement } from '../../lib/chat_db'
 import chatLabels from '../../chat.json'
+import Footer from '../../components/Footer'
 
 const LABELS = chatLabels as any;
 const KB = LABELS.pages?.knowledgeBase || {};
@@ -233,6 +234,8 @@ export default function KnowledgeBase({
             </div>
           </div>
         )}
+
+        <Footer />
 
         <style jsx>{`
           .page { max-width: 1200px; margin: 0 auto; }

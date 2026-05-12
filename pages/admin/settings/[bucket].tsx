@@ -41,7 +41,7 @@ export const getServerSideProps = withSsrAuth(async ({ req, params }) => {
 
   const fullUser = await prisma.user.findUnique({
     where: { id: user.id },
-    select: { id: true, name: true, email: true, role: true, plan: true, photo: true },
+    select: { id: true, name: true, email: true, role: true, plan: true, photo: true, isSuperAdmin: true, },
   })
 
   return {

@@ -6,6 +6,7 @@ import { getRecentMessages, type ChatMessage } from '../lib/chat_db'
 import chatLabels from '../chat.json'
 import Head from 'next/head'
 import { formatDate } from '../lib/formatDate'   // adjust path if needed
+import Footer from '../components/Footer'
 
 /* ─── Types ─────────────────────────────────────── */
 interface UIMessage {
@@ -165,6 +166,9 @@ export default function AIAssistant({ user, initialMessages }: {
               </button>
             </div>
           </div>
+
+        <Footer />
+        
         </div>
 
         <style jsx>{`

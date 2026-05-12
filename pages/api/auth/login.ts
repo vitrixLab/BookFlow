@@ -3,7 +3,7 @@ import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from '../../../lib/session'
 import { prisma } from '../../../lib/db'
 import bcrypt from 'bcrypt'
-import { withRateLimit } from '../../../lib/rateLimit'          // 👈
+import { withRateLimit } from '../../../lib/rateLimit'
 
 async function handler(req: any, res: any) {
   try {
@@ -23,9 +23,9 @@ async function handler(req: any, res: any) {
     const user = await prisma.user.findUnique({ where: { email } })
 
     if (!user) {
-      await prisma.loginTrace.create({
-        data: { userId: 0, email, ip, device, success: false },
-      })
+      // Don't store a trace with an invalid userId – it would break the foreign key.
+      // Omit the trace or use a nullable userId (if you change the schema).
+      // For now, just return an error without logging.
       return res.status(401).json({ error: 'Invalid credentials' })
     }
 
@@ -39,11 +39,18 @@ async function handler(req: any, res: any) {
 
     if (!isValid) {
       await prisma.loginTrace.create({
-        data: { userId: user.id, email, ip, device, success: false },
+        data: {
+          userId: user.id,
+          email,
+          ip,
+          device,
+          success: false,
+        },
       })
       return res.status(401).json({ error: 'Invalid credentials' })
     }
 
+    // ✅ Store the FULL user object, including isSuperAdmin
     req.session.user = {
       id: user.id,
       name: user.name,
@@ -51,11 +58,18 @@ async function handler(req: any, res: any) {
       role: user.role,
       phone: user.phone,
       photo: user.photo,
+      isSuperAdmin: user.isSuperAdmin,   // <-- THE FIX
     }
     await req.session.save()
 
     await prisma.loginTrace.create({
-      data: { userId: user.id, email, ip, device, success: true },
+      data: {
+        userId: user.id,
+        email,
+        ip,
+        device,
+        success: true,
+      },
     })
 
     return res.json({ redirect: '/preload' })

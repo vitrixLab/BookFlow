@@ -1,806 +1,20 @@
+// components/DashboardLayout.tsx
 import { ReactNode, useState, useEffect, useRef } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-import siteConfig from '../site.json'
+import componentsJson from '../schema/components.json'
+import Toast from './Toast'
 
-/* ─── SKELETON COMPONENTS ─────────────────────── */
-function Skeleton({
-  width = '100%',
-  height = '1rem',
-  borderRadius = '6px',
-  style = {},
-}: {
-  width?: string | number
-  height?: string | number
-  borderRadius?: string
-  style?: React.CSSProperties
-}) {
-  return (
-    <div
-      className="skeleton"
-      style={{ width, height, borderRadius, ...style }}
-    />
-  )
-}
+// ── Skeleton imports ─────────────────────────────────
+import {
+  AdminDashboardSkeleton, AdminServicesSkeleton, AdminUsersSkeleton, AdminAppointmentsSkeleton,
+  AdminKnowledgeBaseSkeleton, AdminLoggingSkeleton, AdminTracesSkeleton, AdminAIAssistantSkeleton,
+} from './skeleton/admin'
+import { EmployeeDashboardSkeleton, EmployeeAppointmentsSkeleton, EmployeeCreateAppointmentsSkeleton } from './skeleton/employee'
+import { ClientDashboardSkeleton, ClientBookingsSkeleton, ClientBookAppointmentsSkeleton } from './skeleton/client'
+import SettingsSkeleton from './skeleton/settings/SettingsSkeleton'
+import AIAssistantSkeleton from './skeleton/AIAssistantSkeleton'
 
-/* ─── PAGE‑SPECIFIC ADMIN SKELETONS ─────────────────── */
-function AdminDashboardSkeleton() {
-  return (
-    <main className="main-content">
-      <div className="stats-grid">
-        {[...Array(4)].map((_, i) => (
-          <div key={i} className="card stat-card" style={{ padding: '1rem' }}>
-            <Skeleton height="2rem" width="60%" style={{ marginBottom: '0.5rem' }} />
-            <Skeleton height="1.5rem" width="30%" />
-          </div>
-        ))}
-      </div>
-      <div className="card" style={{ padding: '1rem', marginBottom: '1rem' }}>
-        <Skeleton height="280px" borderRadius="16px" />
-      </div>
-      <div className="card" style={{ padding: '1rem' }}>
-        <Skeleton height="2rem" width="40%" style={{ marginBottom: '1rem' }} />
-        <table style={{ width: '100%' }}>
-          <thead>
-            <tr>
-              {['ID', 'Client', 'Service', 'Date', 'Status'].map(h => (
-                <th key={h}><Skeleton height="0.8rem" width="80%" /></th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {[...Array(5)].map((_, i) => (
-              <tr key={i}>
-                {[...Array(5)].map((_, j) => (
-                  <td key={j} style={{ padding: '0.75rem' }}>
-                    <Skeleton height="1rem" width={j === 0 ? '40%' : '70%'} />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </main>
-  )
-}
-function AdminServicesSkeleton() {
-  return (
-    <main className="main-content">
-      <div style={{ display: 'grid', gridTemplateColumns: '3fr 1fr', gap: '1.25rem', marginBottom: '1.25rem' }}>
-        <div className="card" style={{ padding: '1.5rem' }}>
-          <Skeleton height="1.5rem" width="30%" style={{ marginBottom: '1rem' }} />
-          <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-            <div style={{ flex: 1 }}>
-              <Skeleton height="0.8rem" width="40%" style={{ marginBottom: '0.5rem' }} />
-              <Skeleton height="2.2rem" borderRadius="8px" />
-            </div>
-            <div style={{ flex: 1 }}>
-              <Skeleton height="0.8rem" width="40%" style={{ marginBottom: '0.5rem' }} />
-              <Skeleton height="2.2rem" borderRadius="8px" />
-            </div>
-          </div>
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            <div style={{ flex: 1 }}>
-              <Skeleton height="0.8rem" width="40%" style={{ marginBottom: '0.5rem' }} />
-              <Skeleton height="2.2rem" borderRadius="8px" />
-            </div>
-            <div style={{ flex: 1 }}>
-              <Skeleton height="0.8rem" width="40%" style={{ marginBottom: '0.5rem' }} />
-              <Skeleton height="2.2rem" borderRadius="8px" />
-            </div>
-          </div>
-        </div>
-        <div className="card" style={{ padding: '1rem' }}>
-          <Skeleton height="1.5rem" width="50%" style={{ marginBottom: '1rem' }} />
-          <Skeleton height="4rem" borderRadius="8px" style={{ marginBottom: '0.75rem' }} />
-          {[...Array(3)].map((_, i) => (
-            <Skeleton key={i} height="1rem" width="80%" style={{ marginBottom: '0.5rem' }} />
-          ))}
-        </div>
-      </div>
-      <div className="card" style={{ padding: '1rem' }}>
-        <Skeleton height="2rem" width="30%" style={{ marginBottom: '1rem' }} />
-        <table style={{ width: '100%' }}>
-          <thead>
-            <tr>
-              {['ID', 'Name', 'Duration', 'Price', 'Actions'].map(h => (
-                <th key={h}><Skeleton height="0.8rem" width="80%" /></th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {[...Array(4)].map((_, i) => (
-              <tr key={i}>
-                {[...Array(5)].map((_, j) => (
-                  <td key={j} style={{ padding: '0.75rem' }}>
-                    <Skeleton height="1rem" width={j === 0 ? '30%' : '70%'} />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </main>
-  )
-}
-function AdminUsersSkeleton() {
-  return (
-    <main className="main-content">
-      <div className="card" style={{ padding: '1rem', marginBottom: '1.25rem' }}>
-        <Skeleton height="1.5rem" width="30%" style={{ marginBottom: '1rem' }} />
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-          {['name', 'email', 'password', 'role'].map((_, i) => (
-            <div key={i} style={{ flex: 1 }}>
-              <Skeleton height="0.8rem" width="50%" style={{ marginBottom: '0.5rem' }} />
-              <Skeleton height="2.2rem" borderRadius="8px" />
-            </div>
-          ))}
-        </div>
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          <div style={{ flex: 1 }}>
-            <Skeleton height="0.8rem" width="50%" style={{ marginBottom: '0.5rem' }} />
-            <Skeleton height="2.2rem" borderRadius="8px" />
-          </div>
-          <div style={{ flex: 1 }} />
-        </div>
-      </div>
-      <div className="card" style={{ padding: '1rem' }}>
-        <Skeleton height="2rem" width="30%" style={{ marginBottom: '1rem' }} />
-        <table style={{ width: '100%' }}>
-          <thead>
-            <tr>
-              {['ID', 'Name', 'Email', 'Role', 'Phone', 'Joined', 'Actions'].map(h => (
-                <th key={h}><Skeleton height="0.8rem" width="80%" /></th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {[...Array(5)].map((_, i) => (
-              <tr key={i}>
-                {[...Array(7)].map((_, j) => (
-                  <td key={j} style={{ padding: '0.75rem' }}>
-                    <Skeleton height="1rem" width={j === 0 ? '30%' : '70%'} />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </main>
-  )
-}
-function AdminAppointmentsSkeleton() {
-  return (
-    <main className="main-content">
-      <div className="card" style={{ padding: '1rem', marginBottom: '1.25rem' }}>
-        <Skeleton height="1.5rem" width="30%" style={{ marginBottom: '1rem' }} />
-        <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
-          {['client', 'service'].map((_, i) => (
-            <div key={i} style={{ flex: 1 }}>
-              <Skeleton height="0.8rem" width="50%" style={{ marginBottom: '0.5rem' }} />
-              <Skeleton height="2.2rem" borderRadius="8px" />
-            </div>
-          ))}
-        </div>
-        <div style={{ display: 'flex', gap: '1rem' }}>
-          {['employee', 'datetime', 'notes'].map((_, i) => (
-            <div key={i} style={{ flex: 1 }}>
-              <Skeleton height="0.8rem" width="50%" style={{ marginBottom: '0.5rem' }} />
-              <Skeleton height="2.2rem" borderRadius="8px" />
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="card" style={{ padding: '1rem' }}>
-        <Skeleton height="2rem" width="30%" style={{ marginBottom: '1rem' }} />
-        <table style={{ width: '100%' }}>
-          <thead>
-            <tr>
-              {['ID', 'Client', 'Service', 'Employee', 'Date', 'Status', 'Actions'].map(h => (
-                <th key={h}><Skeleton height="0.8rem" width="80%" /></th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {[...Array(5)].map((_, i) => (
-              <tr key={i}>
-                {[...Array(7)].map((_, j) => (
-                  <td key={j} style={{ padding: '0.75rem' }}>
-                    <Skeleton height="1rem" width={j === 0 ? '30%' : '70%'} />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </main>
-  )
-}
-/* ─── ROUTE‑MATCHED SKELETON SELECTOR ──────────────── */
-function getAdminSkeleton(pathname: string) {
-  if (pathname.startsWith('/admin/services')) return <AdminServicesSkeleton />
-  if (pathname.startsWith('/admin/users')) return <AdminUsersSkeleton />
-  if (pathname.startsWith('/admin/appointments')) return <AdminAppointmentsSkeleton />
-  return <AdminDashboardSkeleton />   // fallback to dashboard skeleton
-}
-
-/* ─── PAGE‑SPECIFIC EMPLOYEE SKELETONS ─────────────────── */
-function EmployeeDashboardSkeleton() {
-  return (
-    <main className="main-content">
-      <div className="stats-grid" style={{ marginBottom: '1.5rem' }}>
-        {[...Array(2)].map((_, i) => (
-          <div key={i} className="card stat-card" style={{ padding: '1.2rem' }}>
-            <Skeleton height="2rem" width="60%" style={{ marginBottom: '0.5rem' }} />
-            <Skeleton height="1rem" width="40%" />
-          </div>
-        ))}
-      </div>
-      <div className="card" style={{ padding: '1rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-          <Skeleton width="1rem" height="1rem" borderRadius="50%" />
-          <Skeleton height="1.2rem" width="30%" />
-        </div>
-        <table style={{ width: '100%' }}>
-          <thead>
-            <tr>
-              {['Service', 'Client', 'Date', 'Action'].map(h => (
-                <th key={h}><Skeleton height="0.8rem" width="80%" /></th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {[...Array(5)].map((_, i) => (
-              <tr key={i}>
-                {[...Array(4)].map((_, j) => (
-                  <td key={j} style={{ padding: '0.75rem' }}>
-                    <Skeleton height="1rem" width={j === 3 ? '40%' : '70%'} />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </main>
-  )
-}
-function EmployeeAppointmentsSkeleton() {
-  return (
-    <main className="main-content">
-      <div className="card" style={{ padding: '1rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-          <Skeleton width="1rem" height="1rem" borderRadius="50%" />
-          <Skeleton height="1.2rem" width="30%" />
-        </div>
-        <table style={{ width: '100%' }}>
-          <thead>
-            <tr>
-              {['Client', 'Service', 'Date', 'Status', 'Action'].map(h => (
-                <th key={h}><Skeleton height="0.8rem" width="80%" /></th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {[...Array(6)].map((_, i) => (
-              <tr key={i}>
-                {[...Array(5)].map((_, j) => (
-                  <td key={j} style={{ padding: '0.75rem' }}>
-                    <Skeleton height="1rem" width={j === 4 ? '40%' : '70%'} />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </main>
-  )
-}
-function EmployeeCreateAppointmentSkeleton() {
-  return (
-    <main className="main-content">
-      <div className="card" style={{ padding: '1.5rem', maxWidth: '640px', margin: '0 auto' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
-          <Skeleton width="1.2rem" height="1.2rem" borderRadius="50%" />
-          <Skeleton height="1.5rem" width="40%" />
-        </div>
-        {['client', 'service', 'datetime', 'notes'].map((_, i) => (
-          <div key={i} style={{ marginBottom: '1.2rem' }}>
-            <Skeleton height="0.8rem" width="20%" style={{ marginBottom: '0.4rem' }} />
-            <Skeleton height="2.2rem" borderRadius="8px" />
-          </div>
-        ))}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
-          <Skeleton height="2.2rem" width="30%" borderRadius="8px" />
-        </div>
-      </div>
-    </main>
-  )
-}
-
-/* ─── PAGE‑SPECIFIC CLIENT SKELETONS ─────────────────── */
-function ClientDashboardSkeleton() {
-  return (
-    <main className="main-content">
-      <div className="stats-grid" style={{ marginBottom: '1.5rem' }}>
-        {[...Array(2)].map((_, i) => (
-          <div key={i} className="card stat-card" style={{ padding: '1.2rem' }}>
-            <Skeleton height="2rem" width="60%" style={{ marginBottom: '0.5rem' }} />
-            <Skeleton height="1rem" width="40%" />
-          </div>
-        ))}
-      </div>
-      <div className="card" style={{ padding: '1rem', marginBottom: '1.25rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-          <Skeleton width="1rem" height="1rem" borderRadius="50%" />
-          <Skeleton height="1.2rem" width="40%" />
-        </div>
-        <table style={{ width: '100%' }}>
-          <thead>
-            <tr>
-              {['Service', 'Description', 'Duration', 'Action'].map(h => (
-                <th key={h}><Skeleton height="0.8rem" width="80%" /></th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {[...Array(3)].map((_, i) => (
-              <tr key={i}>
-                {[...Array(4)].map((_, j) => (
-                  <td key={j} style={{ padding: '0.75rem' }}>
-                    <Skeleton height="1rem" width={j === 3 ? '40%' : '70%'} />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="card" style={{ padding: '1rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-          <Skeleton width="1rem" height="1rem" borderRadius="50%" />
-          <Skeleton height="1.2rem" width="40%" />
-        </div>
-        <table style={{ width: '100%' }}>
-          <thead>
-            <tr>
-              {['Service', 'Date', 'Status', 'Action'].map(h => (
-                <th key={h}><Skeleton height="0.8rem" width="80%" /></th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {[...Array(3)].map((_, i) => (
-              <tr key={i}>
-                {[...Array(4)].map((_, j) => (
-                  <td key={j} style={{ padding: '0.75rem' }}>
-                    <Skeleton height="1rem" width={j === 3 ? '40%' : '70%'} />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </main>
-  )
-}
-function ClientBookingsSkeleton() {
-  return (
-    <main className="main-content">
-      <div className="card" style={{ padding: '1rem' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-          <Skeleton width="1rem" height="1rem" borderRadius="50%" />
-          <Skeleton height="1.2rem" width="30%" />
-          <Skeleton height="1rem" width="2rem" borderRadius="999px" style={{ marginLeft: 'auto' }} />
-        </div>
-        <table style={{ width: '100%' }}>
-          <thead>
-            <tr>
-              {['Service', 'Date', 'Status', 'Action'].map(h => (
-                <th key={h}><Skeleton height="0.8rem" width="80%" /></th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {[...Array(5)].map((_, i) => (
-              <tr key={i}>
-                {[...Array(4)].map((_, j) => (
-                  <td key={j} style={{ padding: '0.75rem' }}>
-                    <Skeleton height="1rem" width={j === 3 ? '40%' : '70%'} />
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </main>
-  )
-}
-function ClientBookAppointmentSkeleton() {
-  return (
-    <main className="main-content">
-      <div className="card" style={{ padding: '1.5rem', maxWidth: '600px' }}>
-        <Skeleton height="1.8rem" width="40%" style={{ marginBottom: '1.5rem' }} />
-        {['service', 'datetime', 'phone'].map((_, i) => (
-          <div key={i} style={{ marginBottom: '1.2rem' }}>
-            <Skeleton height="0.8rem" width="25%" style={{ marginBottom: '0.4rem' }} />
-            <Skeleton height="2.2rem" borderRadius="8px" />
-          </div>
-        ))}
-        <div style={{ display: 'flex', gap: '0.75rem', marginTop: '2rem' }}>
-          <Skeleton height="2.2rem" width="30%" borderRadius="8px" />
-          <Skeleton height="2.2rem" width="20%" borderRadius="8px" />
-        </div>
-      </div>
-    </main>
-  )
-}
-
-function SettingsSkeleton() {
-  return (
-    <>
-      {/* Mobile top pills */}
-      <div className="mobile-settings-tabs">
-        {[...Array(5)].map((_, i) => (
-          <div key={i} className="mobile-tab-skeleton skeleton" />
-        ))}
-      </div>
-
-      <div className="settings-shell">
-        {/* LEFT SETTINGS NAV */}
-        <aside className="settings-nav-panel">
-          <div className="settings-nav-header">
-            <div className="tiny-label skeleton" />
-          </div>
-
-          <div className="settings-nav-links">
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className={`settings-nav-item ${i === 0 ? 'active' : ''}`}
-              >
-                <div className="nav-icon skeleton" />
-                <div className="nav-text skeleton" />
-              </div>
-            ))}
-          </div>
-        </aside>
-
-        {/* MAIN CONTENT */}
-        <section className="settings-content-panel">
-          {/* Header */}
-          <div className="settings-page-header">
-            <div>
-              <div className="page-title skeleton" />
-              <div className="page-subtitle skeleton" />
-            </div>
-          </div>
-
-          {/* Business Profile Card */}
-          <div className="settings-card">
-            <div className="card-header-row">
-              <div className="card-title-group">
-                <div className="card-icon skeleton" />
-                <div className="card-title skeleton" />
-              </div>
-            </div>
-
-            <div className="settings-grid">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="field-group">
-                  <div className="field-label skeleton" />
-                  <div className="field-input skeleton" />
-                </div>
-              ))}
-            </div>
-
-            <div className="button-row">
-              <div className="save-btn skeleton" />
-            </div>
-          </div>
-
-          {/* Owner Profile Card */}
-          <div className="settings-card owner-card">
-            <div className="card-header-row">
-              <div className="card-title-group">
-                <div className="card-icon skeleton" />
-                <div className="card-title skeleton" />
-              </div>
-            </div>
-
-            <div className="owner-layout">
-              <div className="avatar-skeleton skeleton" />
-
-              <div className="owner-info">
-                {[...Array(4)].map((_, i) => (
-                  <div key={i} className="owner-info-row">
-                    <div className="owner-label skeleton" />
-                    <div className="owner-value skeleton" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <style jsx>{`
-        /* ─────────────────────────────
-           LAYOUT (shapes, spacing, etc.)
-           No shimmer animation – that's provided globally
-        ───────────────────────────── */
-        .mobile-settings-tabs {
-          display: none;
-          gap: 0.75rem;
-          overflow-x: auto;
-          padding: 1rem;
-          border-bottom: 1px solid #e8edf3;
-          background: #ffffff;
-        }
-
-        .mobile-settings-tabs::-webkit-scrollbar {
-          display: none;
-        }
-
-        .mobile-tab-skeleton {
-          min-width: 90px;
-          height: 36px;
-          border-radius: 999px;
-          flex-shrink: 0;
-        }
-
-        .settings-shell {
-          display: flex;
-          flex: 1;
-        }
-
-        .settings-nav-panel {
-          width: 240px;
-          background: #ffffff;
-          border-right: 1px solid #e7ebf0;
-          padding: 1.25rem 1rem;
-          flex-shrink: 0;
-        }
-
-        .settings-nav-header {
-          margin-bottom: 1.5rem;
-          padding: 0 0.4rem;
-        }
-
-        .tiny-label {
-          width: 72px;
-          height: 10px;
-          border-radius: 999px;
-        }
-
-        .settings-nav-links {
-          display: flex;
-          flex-direction: column;
-          gap: 0.45rem;
-        }
-
-        .settings-nav-item {
-          display: flex;
-          align-items: center;
-          gap: 0.8rem;
-          padding: 0.85rem 0.85rem;
-          border-radius: 12px;
-        }
-
-        .settings-nav-item.active {
-          background: #f1f5fb;
-        }
-
-        .nav-icon {
-          width: 18px;
-          height: 18px;
-          border-radius: 6px;
-          flex-shrink: 0;
-        }
-
-        .nav-text {
-          width: 75%;
-          height: 12px;
-          border-radius: 999px;
-        }
-
-        .settings-content-panel {
-          flex: 1;
-          padding: 2rem;
-          overflow-y: auto;
-        }
-
-        .settings-page-header {
-          margin-bottom: 1.5rem;
-        }
-
-        .page-title {
-          width: 180px;
-          height: 32px;
-          border-radius: 10px;
-          margin-bottom: 0.8rem;
-        }
-
-        .page-subtitle {
-          width: 320px;
-          max-width: 100%;
-          height: 14px;
-          border-radius: 999px;
-        }
-
-        .settings-card {
-          background: #ffffff;
-          border: 1px solid #e8edf3;
-          border-radius: 24px;
-          padding: 1.5rem;
-          margin-bottom: 1.5rem;
-          box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
-        }
-
-        .card-header-row {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 1.5rem;
-        }
-
-        .card-title-group {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-        }
-
-        .card-icon {
-          width: 20px;
-          height: 20px;
-          border-radius: 6px;
-        }
-
-        .card-title {
-          width: 180px;
-          height: 18px;
-          border-radius: 999px;
-        }
-
-        .settings-grid {
-          display: grid;
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-          gap: 1.25rem;
-        }
-
-        .field-group {
-          display: flex;
-          flex-direction: column;
-          gap: 0.6rem;
-        }
-
-        .field-label {
-          width: 90px;
-          height: 11px;
-          border-radius: 999px;
-        }
-
-        .field-input {
-          width: 100%;
-          height: 48px;
-          border-radius: 14px;
-        }
-
-        .button-row {
-          display: flex;
-          justify-content: flex-end;
-          margin-top: 2rem;
-        }
-
-        .save-btn {
-          width: 150px;
-          height: 44px;
-          border-radius: 14px;
-        }
-
-        .owner-layout {
-          display: flex;
-          align-items: flex-start;
-          gap: 1.5rem;
-        }
-
-        .avatar-skeleton {
-          width: 82px;
-          height: 82px;
-          border-radius: 50%;
-          flex-shrink: 0;
-        }
-
-        .owner-info {
-          flex: 1;
-        }
-
-        .owner-info-row {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          padding: 0.8rem 0;
-          border-bottom: 1px solid #f1f4f8;
-        }
-
-        .owner-label {
-          width: 70px;
-          height: 11px;
-          border-radius: 999px;
-        }
-
-        .owner-value {
-          width: 180px;
-          height: 14px;
-          border-radius: 999px;
-        }
-
-        /* ─────────────────────────────
-           RESPONSIVE
-        ───────────────────────────── */
-        @media (max-width: 992px) {
-          .settings-grid {
-            grid-template-columns: 1fr;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .mobile-settings-tabs {
-            display: flex;
-          }
-
-          .settings-shell {
-            flex-direction: column;
-          }
-
-          .settings-nav-panel {
-            display: none;
-          }
-
-          .settings-content-panel {
-            padding: 1rem;
-          }
-
-          .settings-card {
-            border-radius: 20px;
-            padding: 1.2rem;
-          }
-
-          .owner-layout {
-            flex-direction: column;
-            align-items: flex-start;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .page-title {
-            width: 140px;
-            height: 26px;
-          }
-
-          .page-subtitle {
-            width: 90%;
-          }
-
-          .save-btn {
-            width: 100%;
-          }
-
-          .button-row {
-            justify-content: stretch;
-          }
-        }
-      `}</style>
-    </>
-  )
-}
+// Note: The base Skeleton component is only used inside the role skeletons; not needed here.
 
 interface DashboardLayoutProps {
   children: ReactNode
@@ -810,6 +24,7 @@ interface DashboardLayoutProps {
     email: string
     role: string
     photo?: string | null
+    isSuperAdmin?: boolean    // <-- add this
   }
 }
 
@@ -824,72 +39,103 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
   const [avatarMenuOpen, setAvatarMenuOpen] = useState(false)
   const [notifOpen, setNotifOpen] = useState(false)
   const role = user.role.toLowerCase()
+  const superAdmin = user.isSuperAdmin
 
-  {/* SKELETON ROUTES */}
+  // ── Labels from components.json ──
+  const labels = componentsJson.dashboardLayout
+
+  // ── Skeleton selector ──────────────────────────
   const getSkeleton = (): ReactNode => {
-      // Settings pages
-      if (router.pathname.startsWith('/settings')) return <SettingsSkeleton />
-      if (role === 'admin') {
-        if (router.pathname.startsWith('/admin/services')) return <AdminServicesSkeleton />
-        if (router.pathname.startsWith('/admin/users')) return <AdminUsersSkeleton />
-        if (router.pathname.startsWith('/admin/appointments')) return <AdminAppointmentsSkeleton />
-        return <AdminDashboardSkeleton />
-      }
-      if (role === 'employee') {
-        if (router.pathname.startsWith('/employee/create-appointment')) return <EmployeeCreateAppointmentSkeleton />
-        if (router.pathname.startsWith('/employee/appointments')) return <EmployeeAppointmentsSkeleton />
-        return <EmployeeDashboardSkeleton />
-      }
-      if (role === 'client') {
-        if (router.pathname.startsWith('/client/book-appointment')) return <ClientBookAppointmentSkeleton />
-        if (router.pathname.startsWith('/client/my-bookings')) return <ClientBookingsSkeleton />
-        return <ClientDashboardSkeleton />
-      }
+  // use the captured destination route if a transition is happening
+  const route = loadingRoute ?? router.pathname
+
+    // 1. Catch ALL settings paths first
+    if (
+      route.startsWith('/settings') ||
+      route.startsWith('/admin/settings') ||
+      route.startsWith('/employee/settings') ||
+      route.startsWith('/client/settings')
+    ) {
+      return <SettingsSkeleton />
+    } 
+
+    // 2. Then role‑specific pages
+    if (role === 'admin') { 
+      if (route.startsWith('/admin/services')) return <AdminServicesSkeleton />
+      if (route.startsWith('/admin/users')) return <AdminUsersSkeleton />
+      if (route.startsWith('/admin/appointments')) return <AdminAppointmentsSkeleton />
+        // skeleton selector
+        if (superAdmin) {
+          if (route.startsWith('/admin/knowledge-base')) return <AdminKnowledgeBaseSkeleton />
+          if (route.startsWith('/admin/logging')) return <AdminLoggingSkeleton />
+          if (route.startsWith('/admin/traces')) return <AdminTracesSkeleton />
+          if (route.startsWith('/admin/ai-assistant')) return <AdminAIAssistantSkeleton />
+        }
+      return <AdminDashboardSkeleton />
+    }
+    if (role === 'employee') { 
+      if (route.startsWith('/employee/create-appointment')) return <EmployeeCreateAppointmentsSkeleton />
+      if (route.startsWith('/employee/appointments')) return <EmployeeAppointmentsSkeleton />
+      if (route.startsWith('/ai-assistant')) return <AIAssistantSkeleton />
+      return <EmployeeDashboardSkeleton />
+    }
+    if (role === 'client') { 
+      if (route.startsWith('/client/book-appointment')) return <ClientBookAppointmentsSkeleton />
+      if (route.startsWith('/client/my-bookings')) return <ClientBookingsSkeleton /> 
+      if (route.startsWith('/ai-assistant')) return <AIAssistantSkeleton />
+      return <ClientDashboardSkeleton />
+    }
     return null
   }
 
   // ── Page loading state for skeleton views ──
   const [isPageLoading, setIsPageLoading] = useState(false)
- 
+  const [loadingRoute, setLoadingRoute] = useState<string | null>(null)
+
   useEffect(() => {
-    const handleStart = () => setIsPageLoading(true)
-    const handleEnd = () => setIsPageLoading(false)
+      const handleStart = (url: string) => {
+        // Never show skeleton when navigating to login / register
+        if (url === '/login' || url === '/register') {
+          setIsPageLoading(false)
+          return
+        }
+        setIsPageLoading(true)
+        setLoadingRoute(url)
+      }
+      const handleEnd = () => {
+        setIsPageLoading(false)
+        setLoadingRoute(null)
+      }
+      const handleError = () => {
+        setIsPageLoading(false)
+        setLoadingRoute(null)
+      }
+    
+      router.events.on('routeChangeStart', handleStart)
+      router.events.on('routeChangeComplete', handleEnd)
+      router.events.on('routeChangeError', handleError)
+    
+      return () => {
+        router.events.off('routeChangeStart', handleStart)
+        router.events.off('routeChangeComplete', handleEnd)
+        router.events.off('routeChangeError', handleError)
+      }
+    }, [router])
 
-    router.events.on('routeChangeStart', handleStart)
-    router.events.on('routeChangeComplete', handleEnd)
-    router.events.on('routeChangeError', handleEnd)
+  // ── Toast (replaces old sidebar toast) ──
+  const [toastVisible, setToastVisible] = useState(false)
+  const [toastMessage, setToastMessage] = useState('')
 
-    return () => {
-      router.events.off('routeChangeStart', handleStart)
-      router.events.off('routeChangeComplete', handleEnd)
-      router.events.off('routeChangeError', handleEnd)
-    }
-  }, [router])
-
-  // ── Sidebar toast state ──
-  const [sidebarToast, setSidebarToast] = useState<string | null>(null)
-  const [toastDismissing, setToastDismissing] = useState(false);
-
-  const dismissSidebarToast = () => {
-    setToastDismissing(true);
-    setTimeout(() => {
-      setSidebarToast(null);
-      setToastDismissing(false);
-    }, 250); // matches the CSS exit animation duration
-  };
-
-  // Auto‑dismiss after 2.5 seconds
-  useEffect(() => {
-    if (!sidebarToast) return;
-    const timer = setTimeout(dismissSidebarToast, 2500);
-    return () => clearTimeout(timer);
-  }, [sidebarToast]);
+  const showToast = (msg: string) => {
+    setToastMessage(msg)
+    setToastVisible(true)
+  }
 
   // ── Chat state ──
-  const [chatOpen, setChatOpen] = useState(false) 
+  const [chatOpen, setChatOpen] = useState(false)
 
   const CHAT_STORAGE_KEY = `bookflow_chat_${user.id}`
-  const defaultGreeting = [{ role: 'assistant', content: 'Hi! Ask me anything about BookFlow.' }] as ChatMessage[]
+  const defaultGreeting = [{ role: 'assistant', content: labels.chat.greetingMessage }] as ChatMessage[]
 
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>(defaultGreeting)
 
@@ -913,7 +159,6 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
   const [fullResponse, setFullResponse] = useState('')
   const typingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const chatEndRef = useRef<HTMLDivElement>(null)
-
   const chatInputRef = useRef<HTMLInputElement>(null)
 
   // Scroll to bottom whenever messages or typing text change
@@ -980,6 +225,7 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
       setFullResponse('Something went wrong. Please try again.')
     }
   }
+
   const warmChatbot = () => {
     // Fire‑and‑forget warmup – no UI feedback needed
     fetch('/api/chatbot', {
@@ -989,14 +235,11 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
     }).catch(() => {})
   }
 
-  // ── Other existing state & logic ──
-  const [notifications] = useState([
-    { id: '1', message: 'New client registered.', type: 'info', read: false },
-    { id: '2', message: 'Appointment confirmed.', type: 'success', read: false },
-    { id: '3', message: 'Service update failed.', type: 'error', read: false },
-  ])
+  // ── Notifications (from components.json) ──
+  const [notifications] = useState(labels.notifications)
   const unreadCount = notifications.filter(n => !n.read).length
 
+  // ── Avatar & notification dropdown refs ──
   const avatarRef = useRef<HTMLDivElement>(null)
   const notifRef = useRef<HTMLDivElement>(null)
 
@@ -1014,8 +257,7 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
     return () => { document.body.style.overflow = '' }
   }, [sidebarOpen])
 
-  const closeAll = () => { setAvatarMenuOpen(false); setNotifOpen(false) }
-
+  // ── Navigation helpers ──────────────────────────
   const getDashboardUrl = () => {
     if (role === 'admin') return '/admin/dashboard'
     if (role === 'employee') return '/employee/dashboard'
@@ -1023,39 +265,56 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
   }
 
   const getMenuItems = () => {
-    if (role === 'admin') {
-      return [
-        { href: '/admin/dashboard',       icon: 'fas fa-tachometer-alt',  label: siteConfig.pages.admin.sidebar.dashboard       },
-        { href: '/admin/services',        icon: 'fas fa-cogs',            label: siteConfig.pages.admin.sidebar.services        },
-        { href: '/admin/users',           icon: 'fas fa-users',           label: siteConfig.pages.admin.sidebar.users           },
-        { href: '/admin/appointments',    icon: 'fas fa-calendar-alt',    label: siteConfig.pages.admin.sidebar.appointments    },
-		{ href: '/admin/ai-assistant',    icon: 'fas fa-robot',           label: siteConfig.pages.admin.sidebar.ai_assistant    },
-        { href: '/admin/logging',         icon: 'fas fa-history',         label: siteConfig.pages.admin.sidebar.logging         },
-        { href: '/admin/knowledge-base',  icon: 'fas fa-database',        label: siteConfig.pages.admin.sidebar.knowledge_base  },
-        { href: '/admin/traces',          icon: 'fas fa-list-alt',        label: siteConfig.pages.admin.sidebar.traces          },
-      ]
+    const side = labels.sidebar
+    if (role === 'admin') { 
+        // inside getMenuItems, for role === 'admin'
+        const adminItems = [
+          { href: '/admin/dashboard',    icon: 'fas fa-tachometer-alt', label: side.admin.dashboard },
+          { href: '/admin/services',     icon: 'fas fa-cogs',           label: side.admin.services },
+          { href: '/admin/users',        icon: 'fas fa-users',          label: side.admin.users },
+          { href: '/admin/appointments', icon: 'fas fa-calendar-alt',   label: side.admin.appointments },
+          { href: '/admin/ai-assistant', icon: 'fas fa-robot',          label: side.admin.ai_assistant },
+        ]
+        
+        // only add these if the user is a super‑admin
+        if (user.isSuperAdmin) {
+          adminItems.push(
+            { type: 'separator' },    // <-- this renders as <hr/>
+            { href: '/admin/logging',        icon: 'fas fa-history',   label: side.admin.logging },
+            { href: '/admin/knowledge-base', icon: 'fas fa-database',  label: side.admin.knowledge_base },
+            { href: '/admin/traces',         icon: 'fas fa-list-alt',  label: side.admin.traces },
+          )
+        }
+        
+        return adminItems
+        
     } else if (role === 'employee') {
       return [
-        { href: '/employee/dashboard',            icon: 'fas fa-tachometer-alt',  label: siteConfig.pages.employee.sidebar.dashboard            },
-        { href: '/employee/appointments',         icon: 'fas fa-calendar-alt',    label: siteConfig.pages.employee.sidebar.appointments         },
-        { href: '/employee/create-appointment',   icon: 'fas fa-plus-circle',     label: siteConfig.pages.employee.sidebar.create_appointment   },
-		{ href: '/ai-assistant',                  icon: 'fas fa-robot',           label: siteConfig.pages.employee.sidebar.ai_assistant         },
+        { href: '/employee/dashboard',            icon: 'fas fa-tachometer-alt', label: side.employee.dashboard          },
+        { href: '/employee/appointments',         icon: 'fas fa-calendar-alt',   label: side.employee.appointments       },
+        { href: '/employee/create-appointment',   icon: 'fas fa-plus-circle',    label: side.employee.create_appointment },
+        { href: '/ai-assistant',                  icon: 'fas fa-robot',           label: side.employee.ai_assistant       },
       ]
     } else {
       return [
-        { href: '/client/dashboard',         icon: 'fas fa-tachometer-alt',   label: siteConfig.pages.client.sidebar.dashboard          },
-        { href: '/client/book-appointment',  icon: 'fas fa-calendar-plus',    label: siteConfig.pages.client.sidebar.book_appointment   },
-        { href: '/client/my-bookings',       icon: 'fas fa-bookmark',         label: siteConfig.pages.client.sidebar.my_bookings        },
-		{ href: '/ai-assistant',             icon: 'fas fa-robot',            label: siteConfig.pages.client.sidebar.ai_assistant       },
+        { href: '/client/dashboard',         icon: 'fas fa-tachometer-alt', label: side.client.dashboard          },
+        { href: '/client/book-appointment',  icon: 'fas fa-calendar-plus',  label: side.client.book_appointment   },
+        { href: '/client/my-bookings',       icon: 'fas fa-bookmark',       label: side.client.my_bookings        },
+        { href: '/ai-assistant',             icon: 'fas fa-robot',           label: side.client.ai_assistant      },
       ]
     }
   }
 
   const handleLogout = async () => {
-    localStorage.removeItem(CHAT_STORAGE_KEY)
-    await fetch('/api/auth/logout', { method: 'POST' })
-    router.push('/login')
-  }
+      // Clear all BookFlow localStorage keys
+      const keys = Object.keys(localStorage).filter(k => k.startsWith('bookflow_'))
+      keys.forEach(k => localStorage.removeItem(k))
+    
+      setIsPageLoading(false)
+      setLoadingRoute(null)
+      await fetch('/api/auth/logout', { method: 'POST' })
+      router.push('/login')
+    }
 
   const initials = user.name
     .split(' ')
@@ -1069,7 +328,7 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
       {/* ── SIDEBAR (desktop) ── */}
       <aside className="sidebar">
         <div className="sidebar-logo">
-          <a href={getDashboardUrl()} className="logo-link" aria-label={`${siteConfig.site_name} home`}>
+          <a href={getDashboardUrl()} className="logo-link" aria-label={`${labels.siteName} home`}>
             <img
               src="/image/bookflow_primary_logo.png"
               alt="BookFlow logo"
@@ -1086,48 +345,60 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
             />
           </a>
         </div>
-        
-        <div 
+
+        <div
           style={{
             display: 'flex',
-            justifyContent: 'center', 
+            justifyContent: 'center',
             paddingTop: '14px',
             paddingBottom: '14px',
             borderBottom: '0.5px solid rgba(255,255,255,0.3)',
           }}
-        > 
+        >
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-             {/* Calendar + Management (Gear) SVG */}
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-            
-                style={{
-                  marginTop: '-5px' 
-                }}>
-              {/* Calendar body */}
+              style={{ marginTop: '-5px' }}>
               <rect x="2" y="3" width="20" height="19" rx="2" stroke="lightblue" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M2 9h20M7 3v3M17 3v3" stroke="lightblue" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <p style={{ color: 'lightblue', margin: 0 }}>
-              {siteConfig.site_subname}
-            </p>
+            <p style={{ color: 'lightblue', margin: 0 }}>{labels.subName}</p>
           </div>
-
         </div>
-        
+
         <nav className="sidebar-nav" aria-label="Main navigation">
-          {getMenuItems().map(item => {
-            const active = router.pathname === item.href
-            return ( 
-              <button
-                key={item.href}
-                className={`nav-item${active ? ' nav-item--active' : ''}`}
-                onClick={() => { if (active) return; router.push(item.href); setSidebarOpen(false) }}
-              >
-                <span className="nav-icon" aria-hidden="true"><i className={item.icon} /></span>
-                <span className="nav-label">{item.label}</span>
-              </button>
+        {getMenuItems().map((item, idx) => {
+          // Render a horizontal rule for separator items
+          if (item.type === 'separator') {
+            return (
+              <>
+                <hr key={`sep-${idx}`}
+                  style={{ border: 'none', borderTop: '1px solid #334', margin: '0.4rem 0.8rem',}}
+                />
+                <p style={{ color: '#888', fontSize: '0.7rem', margin: '0 0.8rem 0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Analytics
+                </p>
+              </>
             )
-          })}
+          }
+        
+          const active = router.pathname === item.href
+          return (
+            <button
+              key={item.href}
+              className={`nav-item${active ? ' nav-item--active' : ''}`}
+              onClick={() => {
+                if (active) return
+                router.push(item.href)
+                setSidebarOpen(false)
+              }}
+            >
+              <span className="nav-icon" aria-hidden="true">
+                <i className={item.icon} />
+              </span>
+              <span className="nav-label">{item.label}</span>
+            </button>
+          )
+        })}
         </nav>
 
         <div className="sidebar-footer">
@@ -1137,7 +408,7 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
             aria-label="Support"
             onClick={() => {
               if (router.pathname.startsWith('/support')) return;
-              setSidebarToast('Support page coming soon!');
+              showToast(labels.supportToastMessage);
             }}
           >
             <i className="fas fa-comment-dots" />
@@ -1158,7 +429,6 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
 
       {/* ── MAIN ── */}
       <div className="layout-body">
-        {/* Header */}
         <header className="topbar">
           <button className="mobile-menu-btn" onClick={() => setSidebarOpen(true)} aria-label="Open menu">
             <i className="fas fa-bars" />
@@ -1166,18 +436,18 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
 
           <div className="topbar-search">
             <i className="fas fa-search search-icon" aria-hidden="true" />
-            <input type="search" placeholder="Search anything…" className="search-input" />
+            <input type="search" placeholder={labels.searchPlaceholder} className="search-input" />
           </div>
 
           <div className="topbar-right">
             <button
               className="create-btn"
               onClick={() => {
-                if (router.pathname === '/employee/create-appointment') return
-                router.push('/employee/create-appointment')
+                if (router.pathname !== '/employee/create-appointment')
+                  router.push('/employee/create-appointment')
               }}
             >
-              <i className="fas fa-plus" aria-hidden="true" /> Create
+              <i className="fas fa-plus" aria-hidden="true" /> {labels.createButtonLabel}
             </button>
 
             <div ref={notifRef} style={{ position: 'relative' }}>
@@ -1206,7 +476,7 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
               aria-label="Support"
               onClick={() => {
                 if (router.pathname.startsWith('/support')) return;
-                setSidebarToast('Support page coming soon!');
+                showToast(labels.supportToastMessage);
               }}
             >
               <i className="fas fa-comment" />
@@ -1219,7 +489,7 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
                 onClick={() => {
                   setAvatarMenuOpen(!avatarMenuOpen);
                   setNotifOpen(false);
-                  setChatOpen(false);          // 👈 close chat when opening avatar menu
+                  setChatOpen(false);
                 }}
               >
                 {user.photo ? (
@@ -1229,62 +499,49 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
                 )}
               </button>
               {avatarMenuOpen && (
-              <div className="avatar-dropdown" role="menu">
-                <div className="avatar-dropdown-header">
-                  <strong>{user.name}</strong>
-                  <span>{user.email}</span>
+                <div className="avatar-dropdown" role="menu">
+                  <div className="avatar-dropdown-header">
+                    
+                    {superAdmin && 
+                      <div className="avatar-dropdown-header" 
+                        style={{ height: '33px' , marginBottom: '15px'}}
+                      >
+                        <h3 style={{ color: '#0a6ed1', marginTop: '-10px', marginLeft: '-15px' }}>
+                          Superadmin* &nbsp;&nbsp; 
+                        </h3>
+                      </div>
+                     }
+                       
+                    <strong>
+                      {user.name}
+                    </strong>
+                    <span>{user.email}</span>
+                  </div>
+                  <button className="avatar-dropdown-item" onClick={() => { setAvatarMenuOpen(false); router.push(getDashboardUrl()); }}>
+                    <i className="fas fa-th-large" /> {labels.avatarMenu.dashboard}
+                  </button>
+                  <button className="avatar-dropdown-item" onClick={() => { setAvatarMenuOpen(false); router.push('/settings'); }}>
+                    <i className="fas fa-cog" /> {labels.avatarMenu.settings}
+                  </button>
+                  <button className="avatar-dropdown-item" onClick={() => { setAvatarMenuOpen(false); handleLogout(); }}>
+                    <i className="fas fa-sign-out-alt" /> {labels.avatarMenu.logout}
+                  </button>
                 </div>
-
-                {/* ── NEW: Dashboard link ── */}
-                <button
-                  className="avatar-dropdown-item"
-                  onClick={() => {
-                    setAvatarMenuOpen(false);
-                    router.push(getDashboardUrl());
-                  }}
-                  role="menuitem"
-                >
-                  <i className="fas fa-th-large" aria-hidden="true" /> Dashboard
-                </button>
-
-                <button 
-                  className="avatar-dropdown-item" 
-                  onClick={() => {
-                    setAvatarMenuOpen(false); // 👈 Close the menu first
-                    router.push('/settings');
-                  }} 
-                  role="menuitem"
-                >
-                  <i className="fas fa-cog" aria-hidden="true" /> Settings
-                </button>
-
-                <button 
-                  className="avatar-dropdown-item" 
-                  onClick={() => {
-                    setAvatarMenuOpen(false); // 👈 Close on logout too
-                    handleLogout();
-                  }}
-                  role="menuitem"
-                >
-                  <i className="fas fa-sign-out-alt" aria-hidden="true" /> Log out
-                </button>
-              </div>
-            )} 
+              )}
             </div>
           </div>
         </header>
 
-        {/* SKELETON or CHILDREN */}
-          <main className={`main-content ${!isPageLoading ? 'content-ready' : ''}`}>
-            {isPageLoading ? getSkeleton() : children}
-          </main>
+        <main className={`main-content ${!isPageLoading ? 'content-ready' : ''}`}>
+          {isPageLoading ? getSkeleton() : children}
+        </main>
       </div>
 
       {/* ── MOBILE DRAWER ── */}
       {sidebarOpen && <div className="mobile-overlay" onClick={() => setSidebarOpen(false)} aria-hidden="true" />}
       <nav className={`mobile-drawer${sidebarOpen ? ' mobile-drawer--open' : ''}`} aria-label="Mobile navigation">
         <div className="mobile-drawer-header">
-          <a href={getDashboardUrl()} className="logo-link" aria-label={`${siteConfig.site_name} home`}>
+          <a href={getDashboardUrl()} className="logo-link" aria-label={`${labels.siteName} home`}>
             <img src="/image/bookflow_primary_logo.png" alt="BookFlow logo" width="157" height="42" style={{ filter: 'brightness(0) invert(1)' }} />
           </a>
           <button className="mobile-close-btn" onClick={() => setSidebarOpen(false)} aria-label="Close sidebar" title="Close sidebar">
@@ -1318,34 +575,29 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
             <svg viewBox="0 0 512 512" width="18" height="21" xmlns="http://w3.org">
               <path fill="currentColor" d="M497 273L329 441c-15 15-41 4.5-41-17v-96H152c-13.3 0-24-10.7-24-24v-96c0-13.3 10.7-24 24-24h136V88c0-21.4 25.9-32 41-17l168 168c9.3 9.4 9.3 24.6 0 34zM192 432v32c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V48c0-13.3 10.7-24 24-24h144c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H48v336h120c13.3 0 24 10.7 24 24z"/>
             </svg>
-            Sign out
+            {labels.mobile.signOut}
           </button>
         </div>
       </nav>
 
       {/* ── CHAT WIDGET ── */}
-      {router.pathname !== '/admin/ai-assistant' 
-      && router.pathname !== '/ai-assistant' && (
+      {router.pathname !== '/admin/ai-assistant' && router.pathname !== '/ai-assistant' && (
         <div className="chat-root">
-          {/* Always-visible bubble */}
-          <button 
-            className={`chat-bubble ${chatOpen ? 'chat-bubble--open' : ''}`} 
-            onClick={() => { 
-              const opening = !chatOpen; 
-              setChatOpen(opening); 
-              setAvatarMenuOpen(false); 
-              setNotifOpen(false); 
-
-                // 👈 Use a timeout to ensure the element is rendered/visible
-                setTimeout(() => {
-                  chatInputRef.current?.focus();
-                }, 300); 
-                
+          <button
+            className={`chat-bubble ${chatOpen ? 'chat-bubble--open' : ''}`}
+            onClick={() => {
+              const opening = !chatOpen;
+              setChatOpen(opening);
+              setAvatarMenuOpen(false);
+              setNotifOpen(false);
+              setTimeout(() => {
+                chatInputRef.current?.focus();
+              }, 300);
               if (opening) {
                 warmChatbot();
               }
-            }} 
-            aria-label={chatOpen ? 'Close assistant' : 'Open assistant'}
+            }}
+            aria-label={chatOpen ? labels.chat.bubbleAriaClose : labels.chat.bubbleAriaOpen}
           >
             {chatOpen ? (
               <span className="chat-bubble-x">✕</span>
@@ -1353,11 +605,11 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
               <i className="fas fa-robot" />
             )}
           </button>
-      
+
           {chatOpen && (
             <div className="chat-panel">
               <div className="chat-panel-header">
-                <span>BookFlow Assistant</span>
+                <span>{labels.chat.title}</span>
                 <button
                   onClick={() => setChatOpen(false)}
                   aria-label="Minimize assistant"
@@ -1376,7 +628,6 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
                     {m.content}
                   </div>
                 ))}
-                {/* Show typewriter text or loading dots */}
                 {isTyping && (
                   <div className="chat-msg chat-msg--bot">
                     {typingMessage}
@@ -1393,12 +644,12 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
               </div>
               <div className="chat-input-area">
                 <input
-                  ref={chatInputRef} 
+                  ref={chatInputRef}
                   type="text"
                   value={chatInput}
                   onChange={e => setChatInput(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && sendChat()}
-                  placeholder="Type your question..."
+                  placeholder={labels.chat.inputPlaceholder}
                   disabled={chatLoading || isTyping}
                   className="chat-input"
                 />
@@ -1411,27 +662,21 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
                 </button>
               </div>
             </div>
-          )} 
+          )}
         </div>
-      )} 
+      )}
 
-      {sidebarToast && (
-          <div
-            className={`sidebar-toast${toastDismissing ? ' dismissing' : ''}`}
-            role="alert"
-            aria-live="polite"
-          >
-            <i className="fas fa-info-circle" />
-            <span>{sidebarToast}</span>
-            <button onClick={dismissSidebarToast} aria-label="Dismiss">
-              <i className="fas fa-times" />
-            </button>
-          </div>
-        )}
+      {/* ── TOAST (replaces old sidebar toast) ── */}
+      <Toast
+        message={toastMessage}
+        type="info"
+        visible={toastVisible}
+        onClose={() => setToastVisible(false)}
+      />
 
       {/* ── STYLES ── */}
       <style jsx>{`
-                /* ── TOKENS ── */
+        /* ── TOKENS ── */
         :global(:root) {
           --sidebar-w: 220px;
           --topbar-h: 64px;
@@ -1453,12 +698,11 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
 
         .layout { display: flex; min-height: 100vh; background: var(--bg-page); font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
 
-        /* ── SIDEBAR ── (unchanged) */
+        /* ── SIDEBAR ── */
         .sidebar { width: var(--sidebar-w); background: var(--bg-sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50; overflow-y: auto; }
         .sidebar-logo { padding: 1.25rem 1.25rem 1rem; border-bottom: 1px solid var(--border); }
         .logo-link { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
-        .logo-icon { background: transparent; border-radius: 8px; display: flex; align-items: center; 
-          justify-content: center; color: #fff; font-size: 0.9rem; flex-shrink: 0; }
+        .logo-icon { background: transparent; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.9rem; flex-shrink: 0; }
         .logo-text { font-size: 0.95rem; font-weight: 700; color: var(--bg-card); letter-spacing: -0.01em; }
 
         .sidebar-nav { flex: 1; padding: 0.75rem 0.75rem; display: flex; flex-direction: column; gap: 0.15rem; }
@@ -1470,52 +714,20 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
           transition: background 0.15s ease, color 0.15s ease, transform 0.16s var(--ease-out);
           cursor: pointer; background: none; border: none; width: 100%; text-align: left;
         }
-         
         .nav-item:active { transform: scale(0.97); }
         .nav-item:hover { background: rgba(255, 255, 255, 0.04); color: #ffffff; }
-        .nav-item--active { 
-          background: rgba(255, 255, 255, 0.12); 
-          color: #ffffff; font-weight: 600; 
-          pointer-events: none;   /* prevents accidental re-clicks */
-          cursor: default;        /* removes the hand cursor */ 
+        .nav-item--active {
+          background: rgba(255, 255, 255, 0.12);
+          color: #ffffff; font-weight: 600;
+          pointer-events: none;
+          cursor: default;
         }
         .nav-item--active:active { transform: scale(0.97); }
         .nav-item--mobile { padding: 0.75rem 1.5rem; border-radius: 0; }
         .nav-icon { width: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; }
-
-        .nav-label { font-size: 0.9rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3; } 
+        .nav-label { font-size: 0.9rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.3; }
 
         .sidebar-footer { padding: 0.75rem; border-top: 1px solid var(--border); display: flex; gap: 0.5rem; }
-        
-        .sidebar-toast {
-          position: fixed; bottom: 24px; right: 24px; z-index: 1200;
-          display: flex; align-items: center; gap: 0.5rem;
-          padding: 0.75rem 1rem; border-radius: 10px;
-          background: #fff; color: #111; font-size: 0.85rem;
-          font-weight: 500;
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-          border: 1px solid #ebebeb;
-          border-left: 4px solid #0a6ed1;
-          animation: toastIn 0.25s var(--ease-out);
-        }
-        .sidebar-toast.dismissing {
-          animation: toastOut 0.25s var(--ease-out) forwards;
-        }
-        .sidebar-toast button {
-          background: none; border: none; color: #888; cursor: pointer;
-          padding: 0; margin-left: 0.5rem; font-size: 0.9rem;
-        }
-        .sidebar-toast button:hover { color: #111; }
-
-        @keyframes toastIn {
-          from { opacity: 0; transform: translateX(20px); }
-          to   { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes toastOut {
-          from { opacity: 1; transform: translateX(0); }
-          to   { opacity: 0; transform: translateX(20px); }
-        }
-        
         .util-btn {
           flex: 1; padding: 0.6rem; background: none; border: none;
           border-radius: 10px; color: lightblue; cursor: pointer;
@@ -1525,10 +737,7 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
         .util-btn:active { transform: scale(0.97); }
         .util-btn:hover { background: #f5f5f5; color: var(--text-primary); }
         .util-btn.active,
-        .util-btn[data-active="true"] {background: #e6f0ff; color: #0a6ed1; font-weight: 600;
-          pointer-events: none;
-          cursor: default;
-        }
+        .util-btn[data-active="true"] { background: #e6f0ff; color: #0a6ed1; font-weight: 600; pointer-events: none; cursor: default; }
 
         /* ── LAYOUT BODY ── */
         .layout-body { flex: 1; margin-left: var(--sidebar-w); display: flex; flex-direction: column; min-height: 100vh; width: calc(100vw - var(--sidebar-w)); }
@@ -1569,12 +778,12 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
         .notif-badge { position: absolute; top: 2px; right: 2px; min-width: 18px; height: 18px; background: var(--accent-green); color: #fff; border-radius: 50%; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; padding: 0 4px; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
 
-        .notif-dropdown, .avatar-dropdown { 
-          position: absolute; top: 40px; right: 0; 
-          background: #fff; border-radius: 12px; 
-          box-shadow: 0 12px 40px rgba(0,0,0,0.15); z-index: 200; 
-          overflow: hidden; 
-          animation: slideDown 0.2s var(--ease-out); 
+        .notif-dropdown, .avatar-dropdown {
+          position: absolute; top: 40px; right: 0;
+          background: #fff; border-radius: 12px;
+          box-shadow: 0 12px 40px rgba(0,0,0,0.15); z-index: 200;
+          overflow: hidden;
+          animation: slideDown 0.2s var(--ease-out);
         }
         .notif-dropdown { width: 320px; }
         .avatar-dropdown { width: 240px; top: 44px; }
@@ -1637,10 +846,9 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
           padding: 1.5rem;
         }
 
-        /* ── CHAT WIDGET ROOT ── */
+        /* ── CHAT WIDGET ── */
         .chat-root { position: fixed; bottom: 24px; right: 24px; z-index: 1100; }
 
-        /* ── ALWAYS‑VISIBLE BUBBLE ── */
         .chat-bubble {
           width: 56px; height: 56px; border-radius: 50%;
           background: var(--sap-primary); color: #fff; border: none;
@@ -1667,7 +875,6 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
           100% { box-shadow: 0 0 0 0 rgba(10,110,209,0); }
         }
 
-        /* ── CHAT PANEL ── */
         .chat-panel {
           position: absolute; bottom: 72px; right: 0;
           width: 360px; height: 480px;
@@ -1699,7 +906,6 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
         }
         .chat-minimize-btn:hover { background: rgba(0,0,0,0.05); }
 
-        /* ── MESSAGES (FAST) ── */
         .chat-messages {
           flex: 1; overflow-y: auto; padding: 1rem;
           display: flex; flex-direction: column; gap: 0.5rem;
@@ -1721,7 +927,6 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
           color: var(--text-primary); border-bottom-left-radius: 6px;
         }
 
-        /* ── TYPING INDICATOR (lightweight) ── */
         .typing-indicator {
           display: flex; align-items: center; gap: 4px;
           padding: 0.6rem 1rem; width: fit-content; will-change: contents;
@@ -1739,7 +944,6 @@ export default function DashboardLayout({ children, user }: DashboardLayoutProps
           40% { transform: scale(1); }
         }
 
-        /* ── INPUT AREA (immediate feedback) ── */
         .chat-input-area {
           padding: 0.7rem 1rem; border-top: 1px solid rgba(10,110,209,0.12);
           display: flex; gap: 0.5rem; align-items: center; contain: layout style;

@@ -257,7 +257,7 @@ export default function LandingPage() {
                       const initial = t.name.charAt(0).toUpperCase()
                       let pic = null
                       if (initial === 'S') pic = 'user_images/2.png'
-                      else if (initial === 'M') pic = 'user_images/4.png'
+                      else if (initial === 'M') pic = 'user_images/7.png'
                       else if (initial === 'L') pic = 'user_images/8.png'
                       return pic ? (
                         <img src={`/${pic}`} alt={t.name} width="81" height="81" style={{ borderRadius: '50%', objectFit: 'cover' }} />

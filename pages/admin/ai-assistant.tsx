@@ -6,6 +6,7 @@ import { getRecentMessages, type ChatMessage } from '../../lib/chat_db'
 import Head from 'next/head'
 import chatLabels from '../../chat.json'
 import { format } from 'date-fns'
+import Footer from '../../components/Footer'
 
 /* ─── Types ─────────────────────────────────────── */
 interface UIMessage {
@@ -15,9 +16,9 @@ interface UIMessage {
 }
 
 /* ─── Labels ───────────────────────────────────── */
-const LABELS = chatLabels as any;
-const PAGE = LABELS.pages?.aiAssistant || {};
-const GREETING = LABELS.greetings?.default || 'Hi! Ask me anything about BookFlow.';
+const LABELS = chatLabels as any
+const PAGE = LABELS.pages?.aiAssistant || {}
+const GREETING = LABELS.greetings?.default || 'Hi! Ask me anything about BookFlow.'
 
 /* ─── Server‑side load (optional SQLite history) ─── */
 export const getServerSideProps = withSsrAuth(async ({ req }) => {
@@ -29,30 +30,43 @@ export const getServerSideProps = withSsrAuth(async ({ req }) => {
   let dbMessages: ChatMessage[] = []
   try {
     dbMessages = await getRecentMessages(30)
-  } catch (_) {
-    // out.db may not exist or may not have a 'messages' table
-  }
+  } catch (_) {}
+
+  // Build initial messages on the server (no client drift)
+  const initialMessages: UIMessage[] = dbMessages.length > 0
+    ? dbMessages.map(m => ({
+        role: m.role as 'user' | 'assistant',
+        content: m.content,
+        timestamp: m.timestamp,
+      }))
+    : [
+        {
+          role: 'assistant',
+          content: GREETING,
+          timestamp: new Date().toISOString(), // generated once on the server
+        },
+      ]
 
   return {
     props: {
       user,
-      dbMessages: JSON.parse(JSON.stringify(dbMessages)),
+      initialMessages: JSON.parse(JSON.stringify(initialMessages)),
     },
   }
 })
 
 /* ─── Main component ────────────────────────────── */
-export default function AdminAIAssistant({ user, dbMessages }: {
+export default function AdminAIAssistant({
+  user,
+  initialMessages,
+}: {
   user: any
-  dbMessages: ChatMessage[]
+  initialMessages: UIMessage[]
 }) {
   const CHAT_STORAGE_KEY = `bookflow_chat_${user.id}`
 
-  // ── Initialize messages from localStorage + DB + llm ───
-  const defaultMessages = dbMessages.length > 0
-    ? dbMessages.map(m => ({ role: m.role as 'user' | 'assistant', content: m.content, timestamp: m.timestamp }))
-    : [{ role: 'assistant', content: GREETING, timestamp: new Date().toISOString() }] as UIMessage[]
-  const [messages, setMessages] = useState<UIMessage[]>(defaultMessages)
+  // Initialize with server‑provided messages – no more undefined or mismatch
+  const [messages, setMessages] = useState<UIMessage[]>(initialMessages)
 
   useEffect(() => {
     try {
@@ -86,18 +100,37 @@ export default function AdminAIAssistant({ user, dbMessages }: {
     const question = input.trim()
     if (!question || loading) return
 
-    const userMsg: UIMessage = { role: 'user', content: question, timestamp: new Date().toISOString() }
+    const userMsg: UIMessage = {
+      role: 'user',
+      content: question,
+      timestamp: new Date().toISOString(),
+    }
     setMessages(prev => [...prev, userMsg])
     setInput('')
     setLoading(true)
 
     try {
-      const res = await fetch('/api/chatbot', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ question }) })
+      const res = await fetch('/api/chatbot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question }),
+      })
       const data = await res.json()
-      const assistantMsg: UIMessage = { role: 'assistant', content: data.answer || "I couldn't find an answer.", timestamp: new Date().toISOString() }
+      const assistantMsg: UIMessage = {
+        role: 'assistant',
+        content: data.answer || "I couldn't find an answer.",
+        timestamp: new Date().toISOString(),
+      }
       setMessages(prev => [...prev, assistantMsg])
     } catch {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Something went wrong. Please try again.', timestamp: new Date().toISOString() }])
+      setMessages(prev => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: 'Something went wrong. Please try again.',
+          timestamp: new Date().toISOString(),
+        },
+      ])
     } finally {
       setLoading(false)
     }
@@ -124,7 +157,12 @@ export default function AdminAIAssistant({ user, dbMessages }: {
                 </div>
               )}
               {messages.map((msg, i) => (
-                <div key={i} className={`ai-msg ${msg.role === 'user' ? 'ai-msg--user' : 'ai-msg--assistant'}`}>
+                <div
+                  key={i}
+                  className={`ai-msg ${
+                    msg.role === 'user' ? 'ai-msg--user' : 'ai-msg--assistant'
+                  }`}
+                >
                   <div className="ai-msg-content">{msg.content}</div>
                   <div className="ai-msg-time">
                     {format(new Date(msg.timestamp), 'M/d/yyyy, h:mm:ss a')}
@@ -134,7 +172,11 @@ export default function AdminAIAssistant({ user, dbMessages }: {
               {loading && (
                 <div className="ai-msg ai-msg--assistant">
                   <div className="ai-msg-content">
-                    <span className="typing-indicator"><span className="dot" /><span className="dot" /><span className="dot" /></span>
+                    <span className="typing-indicator">
+                      <span className="dot" />
+                      <span className="dot" />
+                      <span className="dot" />
+                    </span>
                   </div>
                 </div>
               )}
@@ -162,39 +204,89 @@ export default function AdminAIAssistant({ user, dbMessages }: {
               </button>
             </div>
           </div>
+        
+        <Footer />
+        
         </div>
 
         <style jsx>{`
-          .ai-fullpage { max-width: 900px; margin: 0 auto; height: calc(100vh - 64px - 4rem); display: flex; flex-direction: column; }
+          .ai-fullpage {
+            max-width: 900px; margin: 0 auto; height: calc(100vh - 64px - 4rem);
+            display: flex; flex-direction: column;
+          }
           .ai-header { margin-bottom: 1.5rem; text-align: center; }
           .ai-title { font-size: 2rem; font-weight: 800; color: #111; margin: 0 0 0.3rem; }
           .ai-subtitle { font-size: 0.9rem; color: #888; }
 
-          .ai-chat-panel { flex: 1; background: #fff; border-radius: 16px; border: 1px solid #ebebeb; display: flex; flex-direction: column; overflow: hidden; }
-          .ai-messages { flex: 1; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
-          .ai-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; color: #aaa; height: 100%; }
+          .ai-chat-panel {
+            flex: 1; background: #fff; border-radius: 16px; border: 1px solid #ebebeb;
+            display: flex; flex-direction: column; overflow: hidden; max-height: 70%;
+          }
+          .ai-messages {
+            flex: 1; overflow-y: auto; padding: 1.5rem;
+            display: flex; flex-direction: column; gap: 1rem;
+          }
+          .ai-empty {
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; color: #aaa; height: 100%;
+          }
           .ai-empty i { font-size: 3rem; margin-bottom: 0.5rem; }
 
           .ai-msg { max-width: 70%; display: flex; flex-direction: column; }
           .ai-msg--user { align-self: flex-end; align-items: flex-end; }
           .ai-msg--assistant { align-self: flex-start; }
 
-          .ai-msg-content { padding: 0.75rem 1rem; border-radius: 18px; font-size: 0.9rem; line-height: 1.45; white-space: pre-wrap; word-break: break-word; }
-          .ai-msg--user .ai-msg-content { background: var(--sap-primary, #0a6ed1); color: #fff; border-bottom-right-radius: 6px; }
-          .ai-msg--assistant .ai-msg-content { background: rgba(10,110,209,0.07); color: #111; border-bottom-left-radius: 6px; }
-          .ai-msg-time { font-size: 0.7rem; color: #aaa; margin-top: 0.2rem; padding: 0 0.5rem; }
+          .ai-msg-content {
+            padding: 0.75rem 1rem; border-radius: 18px; font-size: 0.9rem;
+            line-height: 1.45; white-space: pre-wrap; word-break: break-word;
+          }
+          .ai-msg--user .ai-msg-content {
+            background: var(--sap-primary, #0a6ed1); color: #fff;
+            border-bottom-right-radius: 6px;
+          }
+          .ai-msg--assistant .ai-msg-content {
+            background: rgba(10,110,209,0.07); color: #111;
+            border-bottom-left-radius: 6px;
+          }
+          .ai-msg-time {
+            font-size: 0.7rem; color: #aaa; margin-top: 0.2rem; padding: 0 0.5rem;
+          }
 
-          .ai-input-area { padding: 1rem 1.5rem; border-top: 1px solid #f0f0f0; display: flex; gap: 0.75rem; align-items: center; }
-          .ai-input { flex: 1; padding: 0.7rem 1rem; border: 1px solid #d1d5db; border-radius: 12px; font-size: 0.9rem; outline: none; transition: border-color 0.15s; }
-          .ai-input:focus { border-color: var(--sap-primary, #0a6ed1); box-shadow: 0 0 0 3px rgba(10,110,209,0.1); }
-          .ai-send-btn { background: var(--sap-primary, #0a6ed1); color: #fff; border: none; border-radius: 50%; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; transition: opacity 0.1s; }
+          .ai-input-area {
+            padding: 1rem 1.5rem; border-top: 1px solid #f0f0f0;
+            display: flex; gap: 0.75rem; align-items: center;
+          }
+          .ai-input {
+            flex: 1; padding: 0.7rem 1rem; border: 1px solid #d1d5db;
+            border-radius: 12px; font-size: 0.9rem; outline: none;
+            transition: border-color 0.15s;
+          }
+          .ai-input:focus {
+            border-color: var(--sap-primary, #0a6ed1);
+            box-shadow: 0 0 0 3px rgba(10,110,209,0.1);
+          }
+          .ai-send-btn {
+            background: var(--sap-primary, #0a6ed1); color: #fff; border: none;
+            border-radius: 50%; width: 42px; height: 42px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1rem; transition: opacity 0.1s;
+          }
           .ai-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-          .typing-indicator { display: flex; align-items: center; gap: 4px; padding: 0.3rem 0; }
-          .typing-indicator .dot { width: 6px; height: 6px; background: var(--sap-primary); border-radius: 50%; opacity: 0.4; animation: bounce 1.2s infinite ease-in-out; }
+          .typing-indicator {
+            display: flex; align-items: center; gap: 4px; padding: 0.3rem 0;
+          }
+          .typing-indicator .dot {
+            width: 6px; height: 6px; background: var(--sap-primary);
+            border-radius: 50%; opacity: 0.4;
+            animation: bounce 1.2s infinite ease-in-out;
+          }
           .typing-indicator .dot:nth-child(2) { animation-delay: 0.15s; }
           .typing-indicator .dot:nth-child(3) { animation-delay: 0.3s; }
-          @keyframes bounce { 0%, 80%, 100% { transform: scale(0.6); } 40% { transform: scale(1); } }
+          @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0.6); }
+            40% { transform: scale(1); }
+          }
         `}</style>
       </DashboardLayout>
     </>

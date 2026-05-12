@@ -38,9 +38,11 @@ model User {
   maxAdmins       Int?            @default(0)
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
+  isSuperAdmin    Boolean         @default(false)
 
   appointments    BookedAppointment[] @relation("client")
   assignedTo      BookedAppointment[] @relation("employee")
+  loginTraces     LoginTrace[]
 
   @@index([role])               // fast user-type counts
   @@index([createdAt])          // sorted user lists
@@ -54,6 +56,7 @@ model Service {
   price         Float?
   createdBy     Int?
   createdAt     DateTime            @default(now())
+  isPublished   Boolean  @default(true)    // <-- new field
 
   appointments  BookedAppointment[]
 
@@ -101,6 +104,8 @@ model LoginTrace {
   device    String
   success   Boolean
   createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@index([ip])
