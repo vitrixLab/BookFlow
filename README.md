@@ -3,6 +3,8 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/7bf84689-2051-48b2-97a0-7d591e079b39/deploy-status)](https://app.netlify.com/projects/bookfly-app/deploys)
 
+[![GitHubTree](https://img.shields.io/badge/GitHubTree-BookFlow-blue?style=flat-square)](https://githubtree.mgks.dev/repo/vitrixLab/BookFlow/master/?ref=badge)
+
 # Booking & Workflow SaaS
 
 **A full‑stack booking platform showcasing stabilisation, modernisation, and system‑design maturity.**
