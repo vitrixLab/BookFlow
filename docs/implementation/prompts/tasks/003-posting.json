@@ -1,0 +1,16 @@
+{
+    "id": "FIN-002",
+    "title": "Posting Engine",
+    "status": "planned",
+    "dependencies": ["FIN-001"],
+    "files": [
+      "lib/financial/posting/PostingEngine.ts",
+      "lib/financial/posting/PostingRepository.ts",
+      "lib/financial/posting/PostingValidator.ts"
+    ],
+    "acceptanceCriteria": [
+      "Atomic posting works",
+      "Validation integrated",
+      "Audit trail entry created"
+    ]
+  }

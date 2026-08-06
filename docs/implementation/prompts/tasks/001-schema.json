@@ -1,0 +1,16 @@
+{
+    "id": "FIN-001",
+    "title": "Financial Schema & Seed",
+    "status": "planned",
+    "dependencies": [],
+    "files": [
+      "prisma/schema.prisma",
+      "prisma/seed.ts",
+      "prisma/migrations/"
+    ],
+    "acceptanceCriteria": [
+      "All financial models exist",
+      "Migration applied cleanly",
+      "Seed populates demo data"
+    ]
+  }
